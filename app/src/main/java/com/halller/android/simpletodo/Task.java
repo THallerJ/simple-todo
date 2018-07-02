@@ -1,8 +1,5 @@
 package com.halller.android.simpletodo;
 
-import android.util.Log;
-
-import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;

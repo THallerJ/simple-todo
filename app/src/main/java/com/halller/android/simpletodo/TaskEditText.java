@@ -1,6 +1,5 @@
 package com.halller.android.simpletodo;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.AppCompatEditText;
 import android.view.KeyEvent;

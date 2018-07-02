@@ -20,6 +20,15 @@ public class TaskFragment extends Fragment {
     private EditText mTaskEditText;
     private TextView mTaskTextView;
 
+    public static TaskFragment newInstance(UUID crimeId) {
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_TASK_ID, crimeId);
+
+        TaskFragment frag = new TaskFragment();
+        frag.setArguments(args);
+        return frag;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,15 +48,6 @@ public class TaskFragment extends Fragment {
         mTaskTextView.setText(mTask.getDateTimeAdded().toString());
 
         return view;
-    }
-
-    public static TaskFragment newInstance(UUID crimeId) {
-        Bundle args = new Bundle();
-        args.putSerializable(ARG_TASK_ID, crimeId);
-
-        TaskFragment frag = new TaskFragment();
-        frag.setArguments(args);
-        return frag;
     }
 
 }

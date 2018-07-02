@@ -6,11 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,8 +22,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
 
 import java.util.List;
 
@@ -40,6 +35,17 @@ public class TaskListFragment extends Fragment {
     private FloatingActionButton mFab;
     private boolean isActive;
 
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        View view = activity.getCurrentFocus();
+
+        if (view == null) {
+            view = new View(activity);
+        }
+
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -48,7 +54,7 @@ public class TaskListFragment extends Fragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.list_recycler_view);
         initRecyclerView();
 
-        mEditText =  (EditText) view.findViewById(R.id.add_item_edit_text);
+        mEditText = (EditText) view.findViewById(R.id.add_item_edit_text);
         addToList();
 
         mFab = (FloatingActionButton) view.findViewById(R.id.add_task_fab);
@@ -110,17 +116,6 @@ public class TaskListFragment extends Fragment {
         });
 
         mEditText.setVisibility(View.INVISIBLE);
-    }
-
-    public static void hideKeyboard(Activity activity) {
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        View view = activity.getCurrentFocus();
-
-        if (view == null) {
-            view = new View(activity);
-        }
-
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     private class ListHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
