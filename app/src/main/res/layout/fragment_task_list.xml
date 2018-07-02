@@ -21,7 +21,7 @@
         android:elevation="4dp"
         android:src="@drawable/ic_add" />
 
-    <EditText
+    <com.halller.android.simpletodo.TaskEditText
         android:id="@+id/add_item_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,11 +31,11 @@
         android:focusableInTouchMode="true"
         android:hint="@string/add_item_hint"
         android:imeOptions="actionDone"
-        android:visibility="invisible"
         android:inputType="textCapSentences"
         android:padding="16dp"
         android:textColor="@color/textColor"
         android:textSize="18sp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 

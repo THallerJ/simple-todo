@@ -20,7 +20,6 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.List;
@@ -31,9 +30,8 @@ public class TaskListFragment extends Fragment {
     private TaskListManager toDoList;
     private RecyclerView mRecyclerView;
     private ListAdapter mAdapter;
-    private EditText mEditText;
+    private TaskEditText mEditText;
     private FloatingActionButton mFab;
-    private boolean isActive;
 
     public static void hideKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
@@ -54,21 +52,23 @@ public class TaskListFragment extends Fragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.list_recycler_view);
         initRecyclerView();
 
-        mEditText = (EditText) view.findViewById(R.id.add_item_edit_text);
-        addToList();
-
         mFab = (FloatingActionButton) view.findViewById(R.id.add_task_fab);
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mEditText.setVisibility(View.VISIBLE);
-                mFab.setVisibility(View.INVISIBLE);
+                mFab.hide();
                 mEditText.requestFocus();
 
                 InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(mEditText, InputMethodManager.SHOW_FORCED);
             }
         });
+
+        mEditText = (TaskEditText) view.findViewById(R.id.add_item_edit_text);
+        mEditText.setFab(mFab);
+        addToList();
+
 
         return view;
     }
@@ -93,29 +93,23 @@ public class TaskListFragment extends Fragment {
         mEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                // TODO: Create new class that extends EditText. Override onKeyPreIme to hide EditText and Fab when the back button is pressed. In this fragment, replace the editText with the new one
-                isActive = true;
-                if ((actionId == EditorInfo.IME_ACTION_DONE) && !(mEditText.getText().toString()
-                        .trim().length() == 0)) {
+                if ((actionId == EditorInfo.IME_ACTION_DONE) && (mEditText.getText().toString()
+                        .trim().length() != 0)) {
                     Task item = new Task();
                     item.setItemDetails(mEditText.getText().toString());
                     toDoList.addTask(item);
-                    mEditText.setText("");
-
-                    if (getActivity() != null) {
-                        hideKeyboard(getActivity());
-                    }
-
-                    mFab.setVisibility(View.VISIBLE);
-                    mEditText.setVisibility(View.INVISIBLE);
+                    hideKeyboard(getActivity());
+                    mFab.show();
+                    mEditText.resetState();
                     return true;
+                } else {
+                    mEditText.resetState();
+                    hideKeyboard(getActivity());
                 }
 
                 return false;
             }
         });
-
-        mEditText.setVisibility(View.INVISIBLE);
     }
 
     private class ListHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
