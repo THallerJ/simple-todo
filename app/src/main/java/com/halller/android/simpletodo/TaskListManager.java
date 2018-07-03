@@ -32,6 +32,10 @@ public class TaskListManager {
         mToDoList.add(item);
     }
 
+    public void removeTask(Task item) {
+        mToDoList.remove(item);
+    }
+
     public List<Task> getList() {
         // TESTING
         for (int i = 0; i < mToDoList.size(); i++) {
@@ -48,5 +52,9 @@ public class TaskListManager {
         }
 
         return null;
+    }
+
+    public int getSize() {
+        return mToDoList.size();
     }
 }

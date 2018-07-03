@@ -140,6 +140,15 @@ public class TaskListFragment extends Fragment {
         public void onClick(View view) {
             Intent intent = TaskActivity.newIntent(getActivity(), mTask.getId());
             startActivity(intent);
+            
+        }
+
+        // TODO: Use this with a swipe gesture on the item
+        public void removeItem() {
+            toDoList.removeTask(mTask);
+            mRecyclerView.removeViewAt(getAdapterPosition());
+            mAdapter.notifyItemRemoved(getAdapterPosition());
+            mAdapter.notifyItemRangeChanged(getAdapterPosition(), toDoList.getSize());
         }
     }
 
