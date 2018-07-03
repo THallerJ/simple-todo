@@ -20,9 +20,9 @@ public class TaskFragment extends Fragment {
     private EditText mTaskEditText;
     private TextView mTaskTextView;
 
-    public static TaskFragment newInstance(UUID crimeId) {
+    public static TaskFragment newInstance(UUID taskId) {
         Bundle args = new Bundle();
-        args.putSerializable(ARG_TASK_ID, crimeId);
+        args.putSerializable(ARG_TASK_ID, taskId);
 
         TaskFragment frag = new TaskFragment();
         frag.setArguments(args);
