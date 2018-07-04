@@ -37,7 +37,7 @@ public class TaskEditText extends AppCompatEditText {
 
     public void resetState() {
         setText("");
-        setVisibility(INVISIBLE);
+        setVisibility(GONE);
 
         if (fab != null) {
             fab.show();
