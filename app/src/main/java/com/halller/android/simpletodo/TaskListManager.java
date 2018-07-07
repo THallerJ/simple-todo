@@ -1,7 +1,5 @@
 package com.halller.android.simpletodo;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -14,10 +12,10 @@ public class TaskListManager {
 
     private static final String TAG = "ListManager";
     private static TaskListManager firstInstance = null;
-    private List<Task> mToDoList;
+    private List<Task> mTaskList;
 
     private TaskListManager() {
-        mToDoList = new ArrayList<>();
+        mTaskList = new ArrayList<>();
     }
 
     public static TaskListManager getInstance() {
@@ -29,23 +27,19 @@ public class TaskListManager {
     }
 
     public void addTask(Task item) {
-        mToDoList.add(item);
+        mTaskList.add(item);
     }
 
     public void removeTask(Task item) {
-        mToDoList.remove(item);
+        mTaskList.remove(item);
     }
 
     public List<Task> getList() {
-        // TESTING
-        for (int i = 0; i < mToDoList.size(); i++) {
-            Log.d(TAG, "getList: " + mToDoList.get(i).getItemDetails());
-        }
-        return mToDoList;
+        return mTaskList;
     }
 
     public Task getTask(UUID taskId) {
-        for (Task task : mToDoList) {
+        for (Task task : mTaskList) {
             if (taskId.equals(task.getId())) {
                 return task;
             }
@@ -55,6 +49,6 @@ public class TaskListManager {
     }
 
     public int getSize() {
-        return mToDoList.size();
+        return mTaskList.size();
     }
 }
