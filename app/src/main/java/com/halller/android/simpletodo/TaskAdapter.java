@@ -33,6 +33,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     }
 
     @Override
+    public void onViewAttachedToWindow(@NonNull TaskHolder holder) {
+        holder.mItemCheckBox.setVisibility(View.VISIBLE);
+        super.onViewAttachedToWindow(holder);
+    }
+
+    @Override
     public void onBindViewHolder(@NonNull TaskAdapter.TaskHolder holder, int position) {
         Log.d(TAG, "{onBindViewHolder: called ");
         Task item = mTaskList.get(position);
@@ -44,15 +50,17 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         return mTaskList.size();
     }
 
-    public class TaskHolder extends RecyclerView.ViewHolder {
+    public class TaskHolder extends RecyclerView.ViewHolder implements CompoundButton.OnCheckedChangeListener {
         private Task mTask;
         private CheckBox mItemCheckBox;
         private TextView mItemTextView;
+        private boolean onBind;
 
         public TaskHolder(View itemView) {
             super(itemView);
             mItemCheckBox = (CheckBox) itemView.findViewById(R.id.task_item_check_box);
             mItemTextView = (TextView) itemView.findViewById(R.id.task_item_text_view);
+            mItemCheckBox.setOnCheckedChangeListener(this);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -65,15 +73,27 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         public void bind(Task item) {
             mTask = item;
             mItemTextView.setText(mTask.getItemDetails());
+            onBind = true;
             mItemCheckBox.setChecked(mTask.isCompleted());
-            mItemCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    mTask.setCompleted(b);
-                }
-            });
+            onBind = false;
         }
 
 
+        public void removeItem(int position) {
+            mTaskList.remove(position);
+            notifyItemRangeChanged(position, mTaskList.size());
+
+            // without this line in conjunction with the overloaded detach method, the checkbox leaves a dark circle when check
+            mItemCheckBox.setVisibility(View.INVISIBLE);
+            notifyItemRemoved(position);
+        }
+
+        @Override
+        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+            if (!onBind) {
+                removeItem(getAdapterPosition());
+                mTask.setCompleted(true);
+                }
+        }
     }
 }

@@ -89,6 +89,7 @@ public class TaskListFragment extends Fragment {
                     Task item = new Task();
                     item.setItemDetails(mEditText.getText().toString());
                     mTaskList.addTask(item);
+                    mAdapter.notifyItemInserted(mTaskList.getSize() - 1);
                     hideKeyboard(getActivity());
                     mFab.show();
                     mEditText.resetState();
