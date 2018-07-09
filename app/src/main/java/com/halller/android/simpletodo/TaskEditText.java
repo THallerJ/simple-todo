@@ -43,5 +43,4 @@ public class TaskEditText extends AppCompatEditText {
             fab.show();
         }
     }
-
 }

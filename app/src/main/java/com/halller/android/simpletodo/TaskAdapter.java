@@ -33,12 +33,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     }
 
     @Override
-    public void onViewAttachedToWindow(@NonNull TaskHolder holder) {
-        holder.mItemCheckBox.setVisibility(View.VISIBLE);
-        super.onViewAttachedToWindow(holder);
-    }
-
-    @Override
     public void onBindViewHolder(@NonNull TaskAdapter.TaskHolder holder, int position) {
         Log.d(TAG, "{onBindViewHolder: called ");
         Task item = mTaskList.get(position);
@@ -78,13 +72,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             onBind = false;
         }
 
-
         public void removeItem(int position) {
             mTaskList.remove(position);
             notifyItemRangeChanged(position, mTaskList.size());
-
-            // without this line in conjunction with the overloaded detach method, the checkbox leaves a dark circle when check
-            mItemCheckBox.setVisibility(View.INVISIBLE);
             notifyItemRemoved(position);
         }
 
@@ -93,7 +83,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             if (!onBind) {
                 removeItem(getAdapterPosition());
                 mTask.setCompleted(true);
-                }
+            }
         }
     }
 }
