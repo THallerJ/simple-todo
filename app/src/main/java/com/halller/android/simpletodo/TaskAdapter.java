@@ -3,6 +3,7 @@ package com.halller.android.simpletodo;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -48,6 +49,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         private Task mTask;
         private CheckBox mItemCheckBox;
         private TextView mItemTextView;
+        private int mAdapterPosition;
+        private Task mDeletedTask;
+
         private boolean onBind;
 
         public TaskHolder(View itemView) {
@@ -68,20 +72,41 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             mTask = item;
             mItemTextView.setText(mTask.getItemDetails());
             onBind = true;
-            mItemCheckBox.setChecked(mTask.isCompleted());
+            mItemCheckBox.setChecked(false);
             onBind = false;
         }
 
-        public void removeItem(int position) {
+        public void deleteTask(int position) {
+            mDeletedTask = mTaskList.get(position);
             mTaskList.remove(position);
             notifyItemRangeChanged(position, mTaskList.size());
             notifyItemRemoved(position);
+            undoDeletion();
+        }
+
+        public void undoDeletion() {
+            mDeletedTask.setCompleted(false);
+            Snackbar snackbar = Snackbar.make(mItemCheckBox, mContext.getString(R.string.task_completed),
+                    Snackbar.LENGTH_LONG);
+            snackbar.setAction(mContext.getString(R.string.undo_button), new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    addItem(mDeletedTask, mAdapterPosition);
+                }
+            });
+            snackbar.show();
+        }
+
+        public void addItem(Task task, int position) {
+            mTaskList.add(position, task);
+            notifyItemInserted(mAdapterPosition);
         }
 
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
             if (!onBind) {
-                removeItem(getAdapterPosition());
+                mAdapterPosition = getAdapterPosition();
+                deleteTask(mAdapterPosition);
                 mTask.setCompleted(true);
             }
         }
