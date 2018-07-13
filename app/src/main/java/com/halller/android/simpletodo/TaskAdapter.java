@@ -70,7 +70,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
         public void bind(Task item) {
             mTask = item;
-            mItemTextView.setText(mTask.getItemDetails());
+            mItemTextView.setText(mTask.getTaskDetails());
             onBind = true;
             mItemCheckBox.setChecked(false);
             onBind = false;
@@ -85,7 +85,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         }
 
         public void undoDeletion() {
-            mDeletedTask.setCompleted(false);
             Snackbar snackbar = Snackbar.make(mItemCheckBox, mContext.getString(R.string.task_completed),
                     Snackbar.LENGTH_LONG);
             snackbar.setAction(mContext.getString(R.string.undo_button), new View.OnClickListener() {
@@ -107,7 +106,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             if (!onBind) {
                 mAdapterPosition = getAdapterPosition();
                 deleteTask(mAdapterPosition);
-                mTask.setCompleted(true);
             }
         }
     }

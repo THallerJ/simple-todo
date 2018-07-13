@@ -42,7 +42,7 @@ public class TaskFragment extends Fragment {
         View view = inflater.inflate(R.layout.task_fragment, container, false);
 
         mTaskEditText = (EditText) view.findViewById(R.id.task_edit_text);
-        mTaskEditText.setText(mTask.getItemDetails());
+        mTaskEditText.setText(mTask.getTaskDetails());
 
         mTaskTextView = (TextView) view.findViewById(R.id.task_text_view);
         mTaskTextView.setText(mTask.getDateTimeAdded().toString());

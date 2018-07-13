@@ -8,9 +8,8 @@ public class Task {
 
     private static final String TAG = "ToDoItem";
     private UUID mId;
-    private String mItemDetails;
+    private String mTaskDetails;
     private Date mDateTimeAdded;
-    private boolean mCompleted;
 
     public Task() {
         mDateTimeAdded = Calendar.getInstance().getTime();
@@ -25,12 +24,12 @@ public class Task {
         mId = id;
     }
 
-    public String getItemDetails() {
-        return mItemDetails;
+    public String getTaskDetails() {
+        return mTaskDetails;
     }
 
-    public void setItemDetails(String listItem) {
-        mItemDetails = listItem;
+    public void setTaskDetails(String listItem) {
+        mTaskDetails = listItem;
     }
 
     public Date getDateTimeAdded() {
@@ -39,14 +38,6 @@ public class Task {
 
     public void setDateTimeAdded(Date dateTimeAdded) {
         mDateTimeAdded = dateTimeAdded;
-    }
-
-    public boolean isCompleted() {
-        return mCompleted;
-    }
-
-    public void setCompleted(boolean completed) {
-        mCompleted = completed;
     }
 
 }
