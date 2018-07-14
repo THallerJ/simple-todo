@@ -62,7 +62,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = TaskActivity.newIntent(mContext, mTask.getId());
+                    Intent intent = TaskActivity.newIntent(mContext, mTask);
                     mContext.startActivity(intent);
                 }
             });
@@ -85,7 +85,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         }
 
         public void undoDeletion() {
-            mDeletedTask.setCompleted(false);
             Snackbar snackbar = Snackbar.make(mItemCheckBox, mContext.getString(R.string.task_completed),
                     Snackbar.LENGTH_LONG);
             snackbar.setAction(mContext.getString(R.string.undo_button), new View.OnClickListener() {
@@ -107,7 +106,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             if (!onBind) {
                 mAdapterPosition = getAdapterPosition();
                 deleteTask(mAdapterPosition);
-                mTask.setCompleted(true);
             }
         }
     }

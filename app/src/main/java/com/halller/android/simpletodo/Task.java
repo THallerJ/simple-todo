@@ -1,16 +1,16 @@
 package com.halller.android.simpletodo;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
-public class Task {
+public class Task implements Serializable {
 
     private static final String TAG = "ToDoItem";
     private UUID mId;
     private String mItemDetails;
     private Date mDateTimeAdded;
-    private boolean mCompleted;
 
     public Task() {
         mDateTimeAdded = Calendar.getInstance().getTime();
@@ -39,14 +39,6 @@ public class Task {
 
     public void setDateTimeAdded(Date dateTimeAdded) {
         mDateTimeAdded = dateTimeAdded;
-    }
-
-    public boolean isCompleted() {
-        return mCompleted;
-    }
-
-    public void setCompleted(boolean completed) {
-        mCompleted = completed;
     }
 
 }
