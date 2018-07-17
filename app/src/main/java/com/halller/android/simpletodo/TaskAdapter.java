@@ -62,7 +62,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = TaskActivity.newIntent(mContext, mTask.getId());
+                    Intent intent = TaskActivity.newIntent(mContext, mTask);
                     mContext.startActivity(intent);
                 }
             });

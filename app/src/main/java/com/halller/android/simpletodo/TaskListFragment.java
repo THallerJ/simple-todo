@@ -66,7 +66,7 @@ public class TaskListFragment extends Fragment {
     }
 
     private void initRecyclerView() {
-        mTaskList = TaskListManager.getInstance();
+        mTaskList = new TaskListManager(getActivity());
 
         if (mAdapter == null) {
             mAdapter = new TaskAdapter(getActivity(), mTaskList.getList());

@@ -8,17 +8,17 @@ import java.util.UUID;
 
 public class TaskActivity extends SingleFragmentActivity {
 
-    private static final String EXTRA_TASK_ID = "com.haller.android.simpletodo.taskid";
+    private static final String EXTRA_TASK = "com.haller.android.simpletodo.task";
 
-    public static Intent newIntent(Context context, UUID taskId) {
+    public static Intent newIntent(Context context, Task task) {
         Intent intent = new Intent(context, TaskActivity.class);
-        intent.putExtra(EXTRA_TASK_ID, taskId);
+        intent.putExtra(EXTRA_TASK, task);
         return intent;
     }
 
     @Override
     protected Fragment createFragment() {
-        UUID taskId = (UUID) getIntent().getSerializableExtra(EXTRA_TASK_ID);
-        return TaskFragment.newInstance(taskId);
+        Task task = (Task) getIntent().getSerializableExtra(EXTRA_TASK);
+        return TaskFragment.newInstance(task);
     }
 }

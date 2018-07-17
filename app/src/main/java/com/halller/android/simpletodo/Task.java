@@ -1,10 +1,11 @@
 package com.halller.android.simpletodo;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
-public class Task {
+public class Task implements Serializable {
 
     private static final String TAG = "ToDoItem";
     private UUID mId;

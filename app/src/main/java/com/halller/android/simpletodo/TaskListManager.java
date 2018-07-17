@@ -1,5 +1,7 @@
 package com.halller.android.simpletodo;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -11,19 +13,10 @@ import java.util.UUID;
 public class TaskListManager {
 
     private static final String TAG = "ListManager";
-    private static TaskListManager firstInstance = null;
     private List<Task> mTaskList;
 
-    private TaskListManager() {
+    public TaskListManager(Context context) {
         mTaskList = new ArrayList<>();
-    }
-
-    public static TaskListManager getInstance() {
-        if (firstInstance == null) {
-            firstInstance = new TaskListManager();
-        }
-
-        return firstInstance;
     }
 
     public void addTask(Task item) {

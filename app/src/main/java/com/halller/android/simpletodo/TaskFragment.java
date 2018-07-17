@@ -14,15 +14,15 @@ import java.util.UUID;
 
 public class TaskFragment extends Fragment {
 
-    private static final String ARG_TASK_ID = "task_id";
+    private static final String ARG_TASK= "task";
 
     private Task mTask;
     private EditText mTaskEditText;
     private TextView mTaskTextView;
 
-    public static TaskFragment newInstance(UUID taskId) {
+    public static TaskFragment newInstance(Task task) {
         Bundle args = new Bundle();
-        args.putSerializable(ARG_TASK_ID, taskId);
+        args.putSerializable(ARG_TASK, task);
 
         TaskFragment frag = new TaskFragment();
         frag.setArguments(args);
@@ -32,8 +32,7 @@ public class TaskFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        UUID taskId = (UUID) getArguments().getSerializable(ARG_TASK_ID);
-        mTask = TaskListManager.getInstance().getTask(taskId);
+        mTask = (Task) getArguments().getSerializable(ARG_TASK);
     }
 
     @Nullable
@@ -45,7 +44,7 @@ public class TaskFragment extends Fragment {
         mTaskEditText.setText(mTask.getTaskDetails());
 
         mTaskTextView = (TextView) view.findViewById(R.id.task_text_view);
-        mTaskTextView.setText(mTask.getDateTimeAdded().toString());
+        mTaskTextView.setText("Insert Stuff");
 
         return view;
     }
