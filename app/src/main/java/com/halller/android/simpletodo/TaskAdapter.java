@@ -19,11 +19,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
     private static final String TAG = "TaskAdapter";
     private Context mContext;
+    private TaskListManager mTaskListManager;
     private List<Task> mTaskList;
 
-    public TaskAdapter(Context context, List<Task> taskList) {
+    public TaskAdapter(Context context, TaskListManager taskListManager) {
         mContext = context;
-        mTaskList = taskList;
+        mTaskListManager = taskListManager;
+        mTaskList = taskListManager.getList();
     }
 
     @NonNull

@@ -20,7 +20,7 @@ import android.widget.TextView;
 public class TaskListFragment extends Fragment {
 
     private static final String TAG = "TaskListFragment";
-    private TaskListManager mTaskList;
+    private TaskListManager mTaskListManager;
     private RecyclerView mRecyclerView;
     private TaskAdapter mAdapter;
     private TaskEditText mEditText;
@@ -66,10 +66,10 @@ public class TaskListFragment extends Fragment {
     }
 
     private void initRecyclerView() {
-        mTaskList = new TaskListManager(getActivity());
+        mTaskListManager = new TaskListManager(getActivity());
 
         if (mAdapter == null) {
-            mAdapter = new TaskAdapter(getActivity(), mTaskList.getList());
+            mAdapter = new TaskAdapter(getActivity(), mTaskListManager);
 
             if (getActivity() != null) {
                 mRecyclerView.addItemDecoration(new TaskListDividerLine(getActivity()));
@@ -88,8 +88,8 @@ public class TaskListFragment extends Fragment {
                         .trim().length() != 0)) {
                     Task item = new Task();
                     item.setTaskDetails(mEditText.getText().toString());
-                    mTaskList.addTask(item);
-                    mAdapter.notifyItemInserted(mTaskList.getSize() - 1);
+                    mTaskListManager.addTask(item);
+                    mAdapter.notifyItemInserted(mTaskListManager.getSize() - 1);
                     hideKeyboard(getActivity());
                     mFab.show();
                     mEditText.resetState();
