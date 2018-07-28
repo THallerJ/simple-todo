@@ -11,14 +11,14 @@ import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 1;
     private final static String TAG = "Database class";
     private static final String DATABASE_NAME = "tasks.db";
 
     public static final String TABLE_NAME = "tasklist";
-    public static final String COL_UUID = "uuid";
+   // public static final String COL_UUID = "uuid";
     public static final String COL_DETAILS = "details";
-    public static final String COL_TIME = "time_added";
+   // public static final String COL_TIME = "time_added";
 
     private SQLiteDatabase db;
 

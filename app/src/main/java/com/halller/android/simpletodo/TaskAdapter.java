@@ -28,6 +28,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         mTaskList = taskListManager.getList();
     }
 
+    public void setTaskList(List<Task> taskList){
+        mTaskList = taskList;
+    }
+
     @NonNull
     @Override
     public TaskAdapter.TaskHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

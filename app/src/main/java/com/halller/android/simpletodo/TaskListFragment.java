@@ -43,7 +43,7 @@ public class TaskListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_task_list, container, false);
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.list_recycler_view);
-        initRecyclerView();
+        updateUI();
 
         mFab = (FloatingActionButton) view.findViewById(R.id.add_task_fab);
         mFab.setOnClickListener(new View.OnClickListener() {
@@ -65,18 +65,16 @@ public class TaskListFragment extends Fragment {
         return view;
     }
 
-    private void initRecyclerView() {
+    private void updateUI() {
         mTaskListManager = new TaskListManager(getActivity());
 
         if (mAdapter == null) {
             mAdapter = new TaskAdapter(getActivity(), mTaskListManager);
-
-            if (getActivity() != null) {
-                mRecyclerView.addItemDecoration(new TaskListDividerLine(getActivity()));
-            }
-
+            mRecyclerView.addItemDecoration(new TaskListDividerLine(getActivity()));
             mRecyclerView.setAdapter(mAdapter);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        } else {
+            mAdapter.setTaskList(mTaskListManager.getList());
         }
     }
 
@@ -92,6 +90,7 @@ public class TaskListFragment extends Fragment {
                     hideKeyboard(getActivity());
                     mFab.show();
                     mEditText.resetState();
+                    updateUI();
                     return true;
                 } else {
                     mEditText.resetState();
