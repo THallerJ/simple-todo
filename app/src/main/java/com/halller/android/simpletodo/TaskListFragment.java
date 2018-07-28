@@ -86,8 +86,7 @@ public class TaskListFragment extends Fragment {
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
                 if ((actionId == EditorInfo.IME_ACTION_DONE) && (mEditText.getText().toString()
                         .trim().length() != 0)) {
-                    Task item = new Task();
-                    item.setTaskDetails(mEditText.getText().toString());
+                    Task item = new Task(mEditText.getText().toString());
                     mTaskListManager.addTask(item);
                     mAdapter.notifyItemInserted(mTaskListManager.getSize() - 1);
                     hideKeyboard(getActivity());

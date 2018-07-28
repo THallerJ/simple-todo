@@ -12,9 +12,10 @@ public class Task implements Serializable {
     private String mTaskDetails;
     private Date mDateTimeAdded;
 
-    public Task() {
-        mDateTimeAdded = Calendar.getInstance().getTime();
-        mId = UUID.randomUUID();
+    public Task(String taskDetails) {
+        mTaskDetails = taskDetails;
+        //mDateTimeAdded = Calendar.getInstance().getTime();
+        //mId = UUID.randomUUID();
     }
 
     public UUID getId() {
