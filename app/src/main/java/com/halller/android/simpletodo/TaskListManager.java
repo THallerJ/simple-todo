@@ -4,14 +4,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-/*
- * Singleton class used to manage a to do list.
- * Can add to the list and retrieve data from the list
- */
 public class TaskListManager {
 
     private static final String TAG = "ListManager";
@@ -28,13 +24,18 @@ public class TaskListManager {
         mDatabase.close();
     }
 
-    public void removeTask(Task item) {
-        getList().remove(item);
+    public void removeTask(Task task) {
+        mDatabase = mDbHelper.getWritableDatabase();
+        mDatabase.execSQL("delete from " + DatabaseHelper.TABLE_NAME + " where " +
+                DatabaseHelper.COL_DETAILS + "=\"" + task.getTaskDetails() +"\";");
+        mDatabase.close();
     }
 
+    // Query the database and use the data to populate a Task list
     public List<Task> getList() {
         List<Task> taskList = new ArrayList<>();
-        TaskCursorWrapper cursor = queryTaskList(null, null);
+        TaskCursorWrapper cursor = queryTaskList(null, null,
+                DatabaseHelper.COL_MILLIS_ADDED);
         try{
             cursor.moveToFirst();
             while(!cursor.isAfterLast()){
@@ -48,28 +49,15 @@ public class TaskListManager {
         return taskList;
     }
 
-    public Task getTask(UUID taskId) {
-        for (Task task : getList()) {
-            if (taskId.equals(task.getId())) {
-                return task;
-            }
-        }
-
-        return null;
-    }
-
-    public int getSize() {
-        return getList().size();
-    }
-
     private ContentValues getContentValues(Task task){
         ContentValues values = new ContentValues();
         values.put(DatabaseHelper.COL_DETAILS, task.getTaskDetails());
+        values.put(DatabaseHelper.COL_MILLIS_ADDED, task.getTimeAddedMillis());
 
         return values;
     }
 
-    private TaskCursorWrapper queryTaskList(String where, String[] whereArgs){
+    private TaskCursorWrapper queryTaskList(String where, String[] whereArgs, String orderBy){
         mDatabase = mDbHelper.getWritableDatabase();
         Cursor cursor = mDatabase.query(
                 DatabaseHelper.TABLE_NAME,
@@ -78,7 +66,7 @@ public class TaskListManager {
                 whereArgs,
                 null,
                 null,
-                null
+                orderBy
         );
 
         return new TaskCursorWrapper(cursor);

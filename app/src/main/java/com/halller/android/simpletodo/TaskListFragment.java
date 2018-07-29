@@ -43,7 +43,7 @@ public class TaskListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_task_list, container, false);
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.list_recycler_view);
-        updateUI();
+        updateRecyclerView();
 
         mFab = (FloatingActionButton) view.findViewById(R.id.add_task_fab);
         mFab.setOnClickListener(new View.OnClickListener() {
@@ -65,7 +65,7 @@ public class TaskListFragment extends Fragment {
         return view;
     }
 
-    private void updateUI() {
+    private void updateRecyclerView() {
         mTaskListManager = new TaskListManager(getActivity());
 
         if (mAdapter == null) {
@@ -78,6 +78,7 @@ public class TaskListFragment extends Fragment {
         }
     }
 
+    // Use String mEditText to create new Task and add to list
     private void addToList() {
         mEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -86,11 +87,12 @@ public class TaskListFragment extends Fragment {
                         .trim().length() != 0)) {
                     Task item = new Task(mEditText.getText().toString());
                     mTaskListManager.addTask(item);
-                    mAdapter.notifyItemInserted(mTaskListManager.getSize() - 1);
+                    mTaskListManager.getList().size();
+                    mAdapter.notifyItemInserted(mTaskListManager.getList().size() - 1);
                     hideKeyboard(getActivity());
                     mFab.show();
                     mEditText.resetState();
-                    updateUI();
+                    updateRecyclerView();
                     return true;
                 } else {
                     mEditText.resetState();

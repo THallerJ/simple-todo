@@ -85,6 +85,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         public void deleteTask(int position) {
             mDeletedTask = mTaskList.get(position);
             mTaskList.remove(position);
+            mTaskListManager.removeTask(mTask);
             notifyItemRangeChanged(position, mTaskList.size());
             notifyItemRemoved(position);
             undoDeletion();
@@ -104,6 +105,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
         public void addItem(Task task, int position) {
             mTaskList.add(position, task);
+            mTaskListManager.addTask(task);
             notifyItemInserted(mAdapterPosition);
         }
 

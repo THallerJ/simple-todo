@@ -16,18 +16,19 @@ public class TaskEditText extends AppCompatEditText {
 
     public TaskEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
-
     }
 
     public TaskEditText(Context context) {
         super(context);
     }
 
+    // Make TaskEditText disappear when user presses back button in nav bar
     @Override
     public boolean onKeyPreIme(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             resetState();
         }
+
         return super.onKeyPreIme(keyCode, event);
     }
 

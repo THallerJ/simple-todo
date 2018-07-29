@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.database.CursorWrapper;
 import android.provider.ContactsContract;
 
+import java.util.Date;
 import java.util.UUID;
 
 public class TaskCursorWrapper extends CursorWrapper {
@@ -14,9 +15,8 @@ public class TaskCursorWrapper extends CursorWrapper {
 
     public Task getTask(){
         String taskDetails = getString(getColumnIndex(DatabaseHelper.COL_DETAILS));
+        long timeAddedMillis = getLong(getColumnIndex(DatabaseHelper.COL_MILLIS_ADDED));
 
-        Task task = new Task(taskDetails);
-        return task;
+        return new Task(taskDetails, timeAddedMillis);
     }
-
 }

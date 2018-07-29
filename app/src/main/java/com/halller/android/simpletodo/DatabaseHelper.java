@@ -18,7 +18,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_NAME = "tasklist";
    // public static final String COL_UUID = "uuid";
     public static final String COL_DETAILS = "details";
-   // public static final String COL_TIME = "time_added";
+    public static final String COL_MILLIS_ADDED = "date_added";
 
     private SQLiteDatabase db;
 
@@ -31,7 +31,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.d(TAG, "onCreate: called data ");
         db.execSQL("create table " + TABLE_NAME + "( " +
                 "_id integer primary key autoincrement, " +
-                COL_DETAILS +" TEXT " +
+                COL_DETAILS + " TEXT, " +
+                COL_MILLIS_ADDED +
                 ")"
         );
     }
@@ -41,5 +42,4 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("drop table if exists " + TABLE_NAME);
         onCreate(db);
     }
-
 }

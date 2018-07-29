@@ -1,29 +1,23 @@
 package com.halller.android.simpletodo;
 
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
 public class Task implements Serializable {
 
     private static final String TAG = "ToDoItem";
-    private UUID mId;
     private String mTaskDetails;
-    private Date mDateTimeAdded;
+    private long mTimeAddedMillis;
 
     public Task(String taskDetails) {
         mTaskDetails = taskDetails;
-        //mDateTimeAdded = Calendar.getInstance().getTime();
-        //mId = UUID.randomUUID();
+        mTimeAddedMillis = System.currentTimeMillis();
     }
 
-    public UUID getId() {
-        return mId;
-    }
-
-    public void setId(UUID id) {
-        mId = id;
+    public Task(String taskDetails, long timeAddedMillis) {
+        mTaskDetails = taskDetails;
+        mTimeAddedMillis = timeAddedMillis;
     }
 
     public String getTaskDetails() {
@@ -34,12 +28,11 @@ public class Task implements Serializable {
         mTaskDetails = listItem;
     }
 
-    public Date getDateTimeAdded() {
-        return mDateTimeAdded;
+    public long getTimeAddedMillis() {
+        return mTimeAddedMillis;
     }
 
-    public void setDateTimeAdded(Date dateTimeAdded) {
-        mDateTimeAdded = dateTimeAdded;
+    public void setTimeAddedMillis(long timeAddedMillis) {
+        mTimeAddedMillis = timeAddedMillis;
     }
-
 }
