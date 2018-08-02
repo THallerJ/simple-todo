@@ -5,13 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
+    <com.halller.android.simpletodo.TaskRecyclerView
         android:id="@+id/list_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:padding="16dp"
-        tools:context=".ToDoListActivity"></android.support.v7.widget.RecyclerView>
+        tools:context=".ToDoListActivity"></com.halller.android.simpletodo.TaskRecyclerView>
+
+    <TextView
+        android:id="@+id/empty_list"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:padding="64dp"
+        android:layout_height="wrap_content"
+        android:text="@string/empty_list"
+        android:textSize="24sp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_task_fab"
@@ -38,6 +47,5 @@
         android:textSize="18sp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent" />
-
 
 </android.support.design.widget.CoordinatorLayout>

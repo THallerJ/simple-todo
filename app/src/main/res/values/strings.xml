@@ -3,4 +3,5 @@
     <string name="add_item_hint">What do you want to do?</string>
     <string name="task_completed">Completed</string>
     <string name="undo_button">UNDO</string>
+    <string name="empty_list">You have nothing to do</string>
 </resources>

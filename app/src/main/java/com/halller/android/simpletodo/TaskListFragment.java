@@ -17,14 +17,17 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 public class TaskListFragment extends Fragment {
 
     private static final String TAG = "TaskListFragment";
     private TaskListManager mTaskListManager;
-    private RecyclerView mRecyclerView;
+    private TaskRecyclerView mRecyclerView;
     private TaskAdapter mAdapter;
     private TaskEditText mEditText;
     private FloatingActionButton mFab;
+    private TextView mEmptyTextView;
 
     public static void hideKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
@@ -42,7 +45,9 @@ public class TaskListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_task_list, container, false);
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.list_recycler_view);
+        mEmptyTextView = (TextView) view.findViewById(R.id.empty_list);
+
+        mRecyclerView = (TaskRecyclerView) view.findViewById(R.id.list_recycler_view);
         updateRecyclerView();
 
         mFab = (FloatingActionButton) view.findViewById(R.id.add_task_fab);
@@ -72,13 +77,15 @@ public class TaskListFragment extends Fragment {
             mAdapter = new TaskAdapter(getActivity(), mTaskListManager);
             mRecyclerView.addItemDecoration(new TaskListDividerLine(getActivity()));
             mRecyclerView.setAdapter(mAdapter);
+            mRecyclerView.setEmptyView(mEmptyTextView);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         } else {
             mAdapter.setTaskList(mTaskListManager.getList());
+            mAdapter.notifyItemInserted(mTaskListManager.getList().size());
         }
     }
 
-    // Use String mEditText to create new Task and add to list
+    // Use String in mEditText to create new Task and add to list
     private void addToList() {
         mEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -87,8 +94,6 @@ public class TaskListFragment extends Fragment {
                         .trim().length() != 0)) {
                     Task item = new Task(mEditText.getText().toString());
                     mTaskListManager.addTask(item);
-                    mTaskListManager.getList().size();
-                    mAdapter.notifyItemInserted(mTaskListManager.getList().size() - 1);
                     hideKeyboard(getActivity());
                     mFab.show();
                     mEditText.resetState();
