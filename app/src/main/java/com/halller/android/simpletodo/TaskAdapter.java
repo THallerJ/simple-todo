@@ -28,10 +28,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         mTaskList = taskListManager.getList();
     }
 
-    public void setTaskList(List<Task> taskList){
-        mTaskList = taskList;
-    }
-
     @NonNull
     @Override
     public TaskAdapter.TaskHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -42,8 +38,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     @Override
     public void onBindViewHolder(@NonNull TaskAdapter.TaskHolder holder, int position) {
         Log.d(TAG, "{onBindViewHolder: called ");
-        Task item = mTaskList.get(position);
-        holder.bind(item);
+        Task task = mTaskList.get(position);
+        holder.bind(task);
     }
 
     @Override
@@ -57,7 +53,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         private TextView mItemTextView;
         private int mAdapterPosition;
         private Task mDeletedTask;
-
         private boolean onBind;
 
         public TaskHolder(View itemView) {
@@ -74,8 +69,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             });
         }
 
-        public void bind(Task item) {
-            mTask = item;
+        public void bind(Task task) {
+            mTask = task;
             mItemTextView.setText(mTask.getTaskDetails());
             onBind = true;
             mItemCheckBox.setChecked(false);
@@ -94,12 +89,14 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         public void undoDeletion() {
             Snackbar snackbar = Snackbar.make(mItemCheckBox, mContext.getString(R.string.task_completed),
                     Snackbar.LENGTH_LONG);
+            TaskListFragment.setSnackbar(snackbar);
             snackbar.setAction(mContext.getString(R.string.undo_button), new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     addItem(mDeletedTask, mAdapterPosition);
                 }
             });
+
             snackbar.show();
         }
 

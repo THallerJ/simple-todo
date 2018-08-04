@@ -8,7 +8,7 @@ import android.view.KeyEvent;
 
 public class TaskEditText extends AppCompatEditText {
 
-    FloatingActionButton fab;
+    private FloatingActionButton mFab;
 
     public TaskEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -33,15 +33,15 @@ public class TaskEditText extends AppCompatEditText {
     }
 
     public void setFab(FloatingActionButton fab) {
-        this.fab = fab;
+        this.mFab = fab;
     }
 
     public void resetState() {
         setText("");
         setVisibility(GONE);
 
-        if (fab != null) {
-            fab.show();
+        if (mFab != null) {
+            mFab.show();
         }
     }
 }

@@ -2,10 +2,12 @@ package com.halller.android.simpletodo;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,11 +15,15 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
+
+import java.util.List;
 
 public class TaskListFragment extends Fragment {
 
@@ -28,22 +34,12 @@ public class TaskListFragment extends Fragment {
     private TaskEditText mEditText;
     private FloatingActionButton mFab;
     private TextView mEmptyTextView;
-
-    public static void hideKeyboard(Activity activity) {
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        View view = activity.getCurrentFocus();
-
-        if (view == null) {
-            view = new View(activity);
-        }
-
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
+    private static Snackbar mSnackbar;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_task_list, container, false);
+        final View view = inflater.inflate(R.layout.fragment_task_list, container, false);
 
         mEmptyTextView = (TextView) view.findViewById(R.id.empty_list);
 
@@ -67,22 +63,41 @@ public class TaskListFragment extends Fragment {
         mEditText.setFab(mFab);
         addToList();
 
+        view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+
+                Rect r = new Rect();
+                view.getWindowVisibleDisplayFrame(r);
+                int screenHeight = view.getRootView().getHeight();
+
+                int keypadHeight = screenHeight - r.bottom;
+
+                if (keypadHeight > screenHeight * 0.15 || mTaskListManager.getList().size() != 0) {
+                    // keyboard is opened
+                    mEmptyTextView.setVisibility(View.GONE);
+
+                    if(mSnackbar != null && mEditText.isFocused()) {
+                        mSnackbar.dismiss();
+                    }
+                }
+                else {
+                    // keyboard is closed
+                    mEmptyTextView.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
         return view;
     }
 
     private void updateRecyclerView() {
         mTaskListManager = new TaskListManager(getActivity());
-
-        if (mAdapter == null) {
-            mAdapter = new TaskAdapter(getActivity(), mTaskListManager);
-            mRecyclerView.addItemDecoration(new TaskListDividerLine(getActivity()));
-            mRecyclerView.setAdapter(mAdapter);
-            mRecyclerView.setEmptyView(mEmptyTextView);
-            mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        } else {
-            mAdapter.setTaskList(mTaskListManager.getList());
-            mAdapter.notifyItemInserted(mTaskListManager.getList().size());
-        }
+        mAdapter = new TaskAdapter(getActivity(), mTaskListManager);
+        mRecyclerView.addItemDecoration(new TaskListDividerLine(getActivity()));
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setEmptyView(mEmptyTextView);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
     // Use String in mEditText to create new Task and add to list
@@ -98,6 +113,7 @@ public class TaskListFragment extends Fragment {
                     mFab.show();
                     mEditText.resetState();
                     updateRecyclerView();
+                    mAdapter.notifyItemInserted(mTaskListManager.getList().size());
                     return true;
                 } else {
                     mEditText.resetState();
@@ -107,6 +123,21 @@ public class TaskListFragment extends Fragment {
                 return false;
             }
         });
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        View view = activity.getCurrentFocus();
+
+        if (view == null) {
+            view = new View(activity);
+        }
+
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    public static void setSnackbar(Snackbar snackbar){
+        mSnackbar = snackbar;
     }
 }
 
