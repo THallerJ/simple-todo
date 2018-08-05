@@ -10,20 +10,14 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
-
-import java.util.List;
 
 public class TaskListFragment extends Fragment {
 
@@ -66,7 +60,6 @@ public class TaskListFragment extends Fragment {
         view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-
                 Rect r = new Rect();
                 view.getWindowVisibleDisplayFrame(r);
                 int screenHeight = view.getRootView().getHeight();
@@ -77,11 +70,10 @@ public class TaskListFragment extends Fragment {
                     // keyboard is opened
                     mEmptyTextView.setVisibility(View.GONE);
 
-                    if(mSnackbar != null && mEditText.isFocused()) {
+                    if (mSnackbar != null && mEditText.isFocused()) {
                         mSnackbar.dismiss();
                     }
-                }
-                else {
+                } else {
                     // keyboard is closed
                     mEmptyTextView.setVisibility(View.VISIBLE);
                 }
@@ -93,11 +85,15 @@ public class TaskListFragment extends Fragment {
 
     private void updateRecyclerView() {
         mTaskListManager = new TaskListManager(getActivity());
-        mAdapter = new TaskAdapter(getActivity(), mTaskListManager);
-        mRecyclerView.addItemDecoration(new TaskListDividerLine(getActivity()));
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setEmptyView(mEmptyTextView);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        if (mAdapter == null) {
+            mAdapter = new TaskAdapter(getActivity(), mTaskListManager);
+            mRecyclerView.addItemDecoration(new TaskListDividerLine(getActivity()));
+            mRecyclerView.setAdapter(mAdapter);
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        } else {
+            mAdapter.setLists(mTaskListManager.getList());
+        }
     }
 
     // Use String in mEditText to create new Task and add to list
@@ -136,7 +132,7 @@ public class TaskListFragment extends Fragment {
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    public static void setSnackbar(Snackbar snackbar){
+    public static void setSnackbar(Snackbar snackbar) {
         mSnackbar = snackbar;
     }
 }
