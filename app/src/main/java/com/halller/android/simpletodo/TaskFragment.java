@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -45,6 +47,18 @@ public class TaskFragment extends Fragment {
 
         mTaskTextView = (TextView) view.findViewById(R.id.task_text_view);
         mTaskTextView.setText("Insert Stuff");
+
+        mTaskEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if(actionId == EditorInfo.IME_ACTION_DONE) {
+                  //  mTaskListManager.updateTaskDetails(mTask, mTaskEditText.getText().toString());
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
 
         return view;
     }

@@ -16,7 +16,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "tasks.db";
 
     public static final String TABLE_NAME = "tasklist";
-   // public static final String COL_UUID = "uuid";
+    public static final String COL_UUID = "uuid";
     public static final String COL_DETAILS = "details";
     public static final String COL_MILLIS_ADDED = "date_added";
 
@@ -31,7 +31,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.d(TAG, "onCreate: called data ");
         db.execSQL("create table " + TABLE_NAME + "( " +
                 "_id integer primary key autoincrement, " +
-                COL_DETAILS + " TEXT, " +
+                COL_UUID + ", " +
+                COL_DETAILS + " , " +
                 COL_MILLIS_ADDED +
                 ")"
         );

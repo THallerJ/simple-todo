@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +21,11 @@ public class TaskListManager {
 
     public void addTask(Task task) {
         mDatabase = mDbHelper.getWritableDatabase();
-        mDatabase.insert(DatabaseHelper.TABLE_NAME, null, getContentValues(task));
+        ContentValues values = new ContentValues();
+        values.put(DatabaseHelper.COL_UUID, task.getUUID().toString());
+        values.put(DatabaseHelper.COL_DETAILS, task.getTaskDetails());
+        values.put(DatabaseHelper.COL_MILLIS_ADDED, task.getTimeAddedMillis());
+        mDatabase.insert(DatabaseHelper.TABLE_NAME, null, values);
         mDatabase.close();
     }
 
@@ -29,6 +34,14 @@ public class TaskListManager {
         mDatabase.execSQL("delete from " + DatabaseHelper.TABLE_NAME + " where " +
                 DatabaseHelper.COL_DETAILS + "=\"" + task.getTaskDetails() +"\";");
         mDatabase.close();
+    }
+
+    public void updateTaskDetails(Task task, String taskDetails){
+        mDatabase = mDbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DatabaseHelper.COL_DETAILS, task.getTaskDetails());
+        mDatabase.update(DatabaseHelper.TABLE_NAME, values,
+                DatabaseHelper.COL_UUID + " = " + task.getUUID(), null);
     }
 
     // Query the database and use the data to populate a Task list
@@ -47,14 +60,6 @@ public class TaskListManager {
         }
 
         return taskList;
-    }
-
-    private ContentValues getContentValues(Task task){
-        ContentValues values = new ContentValues();
-        values.put(DatabaseHelper.COL_DETAILS, task.getTaskDetails());
-        values.put(DatabaseHelper.COL_MILLIS_ADDED, task.getTimeAddedMillis());
-
-        return values;
     }
 
     private TaskCursorWrapper queryTaskList(String where, String[] whereArgs, String orderBy){

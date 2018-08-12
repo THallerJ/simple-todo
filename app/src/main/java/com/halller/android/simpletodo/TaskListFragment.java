@@ -28,7 +28,7 @@ public class TaskListFragment extends Fragment {
     private TaskEditText mEditText;
     private FloatingActionButton mFab;
     private TextView mEmptyTextView;
-    private static Snackbar mSnackbar;
+    private Snackbar mUndoSnackbar;
 
     @Nullable
     @Override
@@ -70,8 +70,8 @@ public class TaskListFragment extends Fragment {
                     // keyboard is opened
                     mEmptyTextView.setVisibility(View.GONE);
 
-                    if (mSnackbar != null && mEditText.isFocused()) {
-                        mSnackbar.dismiss();
+                    if (mUndoSnackbar != null && mEditText.isFocused()) {
+                        mUndoSnackbar.dismiss();
                     }
                 } else {
                     // keyboard is closed
@@ -87,7 +87,7 @@ public class TaskListFragment extends Fragment {
         mTaskListManager = new TaskListManager(getActivity());
 
         if (mAdapter == null) {
-            mAdapter = new TaskAdapter(getActivity(), mTaskListManager);
+            mAdapter = new TaskAdapter(getActivity(), this, mTaskListManager);
             mRecyclerView.addItemDecoration(new TaskListDividerLine(getActivity()));
             mRecyclerView.setAdapter(mAdapter);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -132,8 +132,9 @@ public class TaskListFragment extends Fragment {
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    public static void setSnackbar(Snackbar snackbar) {
-        mSnackbar = snackbar;
+    // Allows Snackbar from TaskAdapter to be dismissed when keyboard is open
+    public void setUndoSnackbar(Snackbar snackbar) {
+        mUndoSnackbar = snackbar;
     }
 }
 

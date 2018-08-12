@@ -20,10 +20,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     private static final String TAG = "TaskAdapter";
     private Context mContext;
     private TaskListManager mTaskListManager;
+    private TaskListFragment mTaskListFragment;
     private List<Task> mTaskList;
 
-    public TaskAdapter(Context context, TaskListManager taskListManager) {
+    public TaskAdapter(Context context, TaskListFragment taskListFragment, TaskListManager taskListManager) {
         mContext = context;
+        mTaskListFragment = taskListFragment;
         mTaskListManager = taskListManager;
         mTaskList = taskListManager.getList();
     }
@@ -67,7 +69,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = TaskActivity.newIntent(mContext, mTask);
+                    Intent intent = TaskActivity.newIntent(mContext, mTask, mTaskListManager);
                     mContext.startActivity(intent);
                 }
             });
@@ -91,13 +93,17 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         }
 
         public void undoDeletion() {
-            Snackbar snackbar = Snackbar.make(mItemCheckBox, mContext.getString(R.string.task_completed),
+            final Snackbar snackbar = Snackbar.make(mItemCheckBox, mContext.getString(R.string.task_completed),
                     Snackbar.LENGTH_LONG);
-            TaskListFragment.setSnackbar(snackbar);
+            mTaskListFragment.setUndoSnackbar(snackbar);
             snackbar.setAction(mContext.getString(R.string.undo_button), new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    addItem(mDeletedTask, mAdapterPosition);
+                    if(mDeletedTask != null) {
+                        addItem(mDeletedTask, mAdapterPosition);
+                        mDeletedTask = null;
+                        snackbar.dismiss();
+                    }
                 }
             });
 

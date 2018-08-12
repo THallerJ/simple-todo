@@ -10,7 +10,7 @@ public class TaskActivity extends SingleFragmentActivity {
 
     private static final String EXTRA_TASK = "com.haller.android.simpletodo.task";
 
-    public static Intent newIntent(Context context, Task task) {
+    public static Intent newIntent(Context context, Task task, TaskListManager taskListManager) {
         Intent intent = new Intent(context, TaskActivity.class);
         intent.putExtra(EXTRA_TASK, task);
         return intent;
