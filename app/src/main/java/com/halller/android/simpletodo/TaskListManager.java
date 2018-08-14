@@ -11,7 +11,7 @@ import java.util.List;
 
 public class TaskListManager {
 
-    private static final String TAG = "ListManager";
+    private static final String TAG = "TaskListManager";
     private DatabaseHelper mDbHelper;
     private SQLiteDatabase mDatabase;
 

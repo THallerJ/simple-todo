@@ -9,16 +9,20 @@ import java.util.UUID;
 public class TaskActivity extends SingleFragmentActivity {
 
     private static final String EXTRA_TASK = "com.haller.android.simpletodo.task";
+    private static TaskListManager mTaskListManager;
 
     public static Intent newIntent(Context context, Task task, TaskListManager taskListManager) {
         Intent intent = new Intent(context, TaskActivity.class);
         intent.putExtra(EXTRA_TASK, task);
+        mTaskListManager = taskListManager;
         return intent;
     }
 
     @Override
     protected Fragment createFragment() {
         Task task = (Task) getIntent().getSerializableExtra(EXTRA_TASK);
-        return TaskFragment.newInstance(task);
+        TaskFragment fragment = TaskFragment.newInstance(task);
+        fragment.setTaskListManager(mTaskListManager);
+        return fragment;
     }
 }

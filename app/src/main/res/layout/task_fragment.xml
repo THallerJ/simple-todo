@@ -6,13 +6,15 @@
     android:orientation="vertical"
     android:padding="24dp">
 
-    <EditText
+    <com.halller.android.simpletodo.TaskEditText
         android:id="@+id/task_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:inputType="textCapSentences"
         android:imeOptions="actionDone"
         android:background="@color/windowBackground"
-        android:focusedByDefault="false"
         android:paddingBottom="16dp"
         android:textColor="@color/textColor"
         android:textSize="32sp"

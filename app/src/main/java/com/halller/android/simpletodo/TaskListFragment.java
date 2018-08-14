@@ -1,6 +1,5 @@
 package com.halller.android.simpletodo;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -55,6 +54,7 @@ public class TaskListFragment extends Fragment {
 
         mEditText = (TaskEditText) view.findViewById(R.id.add_item_edit_text);
         mEditText.setFab(mFab);
+        mEditText.setPersistence(false);
         addToList();
 
         view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -105,7 +105,7 @@ public class TaskListFragment extends Fragment {
                         .trim().length() != 0)) {
                     Task item = new Task(mEditText.getText().toString());
                     mTaskListManager.addTask(item);
-                    hideKeyboard(getActivity());
+                    mEditText.hideKeyboard(getActivity());
                     mFab.show();
                     mEditText.resetState();
                     updateRecyclerView();
@@ -113,23 +113,12 @@ public class TaskListFragment extends Fragment {
                     return true;
                 } else {
                     mEditText.resetState();
-                    hideKeyboard(getActivity());
+                    mEditText.hideKeyboard(getActivity());
                 }
 
                 return false;
             }
         });
-    }
-
-    public static void hideKeyboard(Activity activity) {
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        View view = activity.getCurrentFocus();
-
-        if (view == null) {
-            view = new View(activity);
-        }
-
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     // Allows Snackbar from TaskAdapter to be dismissed when keyboard is open

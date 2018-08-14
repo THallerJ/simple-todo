@@ -4,23 +4,23 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
 import android.widget.TextView;
-
-import java.util.UUID;
 
 public class TaskFragment extends Fragment {
 
+    private static final String TAG = "TaskFragment";
     private static final String ARG_TASK= "task";
 
     private Task mTask;
-    private EditText mTaskEditText;
+    private TaskEditText mTaskEditText;
     private TextView mTaskTextView;
+    private TaskListManager mTaskListManager;
 
     public static TaskFragment newInstance(Task task) {
         Bundle args = new Bundle();
@@ -42,8 +42,10 @@ public class TaskFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.task_fragment, container, false);
 
-        mTaskEditText = (EditText) view.findViewById(R.id.task_edit_text);
+        mTaskEditText = (TaskEditText) view.findViewById(R.id.task_edit_text);
         mTaskEditText.setText(mTask.getTaskDetails());
+        mTaskEditText.setSelection(mTaskEditText.getText().length());
+        mTaskEditText.setDefaultText(mTask.getTaskDetails());
 
         mTaskTextView = (TextView) view.findViewById(R.id.task_text_view);
         mTaskTextView.setText("Insert Stuff");
@@ -52,7 +54,9 @@ public class TaskFragment extends Fragment {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
                 if(actionId == EditorInfo.IME_ACTION_DONE) {
-                  //  mTaskListManager.updateTaskDetails(mTask, mTaskEditText.getText().toString());
+                    Log.d(TAG, "onEditorAction: method called");
+                    mTaskEditText.setDefaultText(mTaskEditText.getText().toString());
+                    mTaskEditText.hideKeyboard(getActivity());
                     return true;
                 } else {
                     return false;
@@ -61,6 +65,10 @@ public class TaskFragment extends Fragment {
         });
 
         return view;
+    }
+
+    public void setTaskListManager(TaskListManager taskListMangager){
+        mTaskListManager = taskListMangager;
     }
 }
 
