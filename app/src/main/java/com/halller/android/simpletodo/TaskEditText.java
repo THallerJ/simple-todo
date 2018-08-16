@@ -14,9 +14,11 @@ public class TaskEditText extends AppCompatEditText {
     private FloatingActionButton mFab;
 
     // Determines if the TaskEditText should be hidden once the user is done entering text
+    // It is hidden by default
     private boolean mIsPersistent = true;
 
-    // displayed in TaskEditText when the user presses the back button to exit the view
+    // Message displayed in TaskEditText when user selects TaskEditText or when the user hits the
+    // back button instead of submit button
     private String mDefaultText = "";
 
     public TaskEditText(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -42,12 +44,15 @@ public class TaskEditText extends AppCompatEditText {
     }
 
     public void resetState() {
-        setText(mDefaultText);
-        setSelection(getText().length());
-
-        if(!mIsPersistent) {
+        if(mIsPersistent) {
+            setDefaultText(getText().toString());
+        } else {
             setVisibility(GONE);
         }
+
+        setText(mDefaultText);
+
+        setSelection(getText().toString().length());
 
         if (mFab != null) {
             mFab.show();

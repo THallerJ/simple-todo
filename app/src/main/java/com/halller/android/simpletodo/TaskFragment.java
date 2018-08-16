@@ -55,7 +55,7 @@ public class TaskFragment extends Fragment {
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
                 if(actionId == EditorInfo.IME_ACTION_DONE) {
                     Log.d(TAG, "onEditorAction: method called");
-                    mTaskEditText.setDefaultText(mTaskEditText.getText().toString());
+                    mTaskEditText.resetState();
                     mTaskEditText.hideKeyboard(getActivity());
                     return true;
                 } else {
