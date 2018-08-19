@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,12 +35,12 @@ public class TaskListManager {
         mDatabase.close();
     }
 
-    public void updateTaskDetails(Task task, String taskDetails){
+    public void updateTaskDetails(Task task){
         mDatabase = mDbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(DatabaseHelper.COL_DETAILS, task.getTaskDetails());
         mDatabase.update(DatabaseHelper.TABLE_NAME, values,
-                DatabaseHelper.COL_UUID + " = " + task.getUUID(), null);
+                DatabaseHelper.COL_UUID + " = ?", new String[] {task.getUUID().toString()});
     }
 
     // Query the database and use the data to populate a Task list

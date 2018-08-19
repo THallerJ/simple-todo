@@ -19,7 +19,6 @@ public class TaskFragment extends Fragment {
 
     private Task mTask;
     private TaskEditText mTaskEditText;
-    private TextView mTaskTextView;
     private TaskListManager mTaskListManager;
 
     public static TaskFragment newInstance(Task task) {
@@ -47,14 +46,13 @@ public class TaskFragment extends Fragment {
         mTaskEditText.setSelection(mTaskEditText.getText().length());
         mTaskEditText.setDefaultText(mTask.getTaskDetails());
 
-        mTaskTextView = (TextView) view.findViewById(R.id.task_text_view);
-        mTaskTextView.setText("Insert Stuff");
-
         mTaskEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
                 if(actionId == EditorInfo.IME_ACTION_DONE) {
                     Log.d(TAG, "onEditorAction: method called");
+                    mTask.setTaskDetails(mTaskEditText.getText().toString());
+                    mTaskListManager.updateTaskDetails(mTask);
                     mTaskEditText.resetState();
                     mTaskEditText.hideKeyboard(getActivity());
                     return true;

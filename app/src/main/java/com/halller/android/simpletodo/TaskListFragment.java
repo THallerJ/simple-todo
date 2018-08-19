@@ -93,6 +93,7 @@ public class TaskListFragment extends Fragment {
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         } else {
             mAdapter.setLists(mTaskListManager.getList());
+            mAdapter.notifyDataSetChanged();
         }
     }
 
@@ -112,11 +113,8 @@ public class TaskListFragment extends Fragment {
                     mAdapter.notifyItemInserted(mTaskListManager.getList().size());
                     return true;
                 } else {
-                    mEditText.resetState();
-                    mEditText.hideKeyboard(getActivity());
+                    return false;
                 }
-
-                return false;
             }
         });
     }
@@ -124,6 +122,12 @@ public class TaskListFragment extends Fragment {
     // Allows Snackbar from TaskAdapter to be dismissed when keyboard is open
     public void setUndoSnackbar(Snackbar snackbar) {
         mUndoSnackbar = snackbar;
+    }
+
+    @Override
+    public void onResume() {
+        updateRecyclerView();
+        super.onResume();
     }
 }
 

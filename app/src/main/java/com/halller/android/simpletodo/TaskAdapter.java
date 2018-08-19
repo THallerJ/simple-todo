@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +42,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull TaskAdapter.TaskHolder holder, int position) {
-        Log.d(TAG, "{onBindViewHolder: called ");
         Task task = mTaskList.get(position);
         holder.bind(task);
     }
@@ -58,6 +56,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         private CheckBox mItemCheckBox;
         private TextView mItemTextView;
         private int mAdapterPosition;
+
         private Task mDeletedTask;
         private boolean onBind;
 
