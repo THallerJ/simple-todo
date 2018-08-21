@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.halller.android.simpletodo">
+    package="com.haller.android.simpletodo">
 
     <application
         android:allowBackup="true"
@@ -10,7 +10,7 @@
         android:supportsRtl="true"
 
         android:theme="@style/AppTheme">
-        <activity android:name=".TaskListActivity"
+        <activity android:name=".Activities.TaskListActivity"
             android:windowSoftInputMode="adjustResize"
              >
 
@@ -19,7 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TaskActivity"></activity>
+        <activity android:name=".Activities.TaskActivity"></activity>
     </application>
 
 </manifest>

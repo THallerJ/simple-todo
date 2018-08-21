@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.halller.android.simpletodo.TaskEditText
+    <com.haller.android.simpletodo.Views.TaskEditText
         android:id="@+id/task_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

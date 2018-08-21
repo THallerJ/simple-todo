@@ -1,4 +1,4 @@
-package com.halller.android.simpletodo;
+package com.haller.android.simpletodo.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,12 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+
+import com.haller.android.simpletodo.Activities.TaskActivity;
+import com.haller.android.simpletodo.Fragments.TaskListFragment;
+import com.haller.android.simpletodo.R;
+import com.haller.android.simpletodo.Utilities.Task;
+import com.haller.android.simpletodo.Utilities.TaskListManager;
 
 import java.util.List;
 

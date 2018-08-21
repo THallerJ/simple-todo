@@ -1,4 +1,4 @@
-package com.halller.android.simpletodo;
+package com.haller.android.simpletodo.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
+
+import com.haller.android.simpletodo.R;
+import com.haller.android.simpletodo.Utilities.Task;
+import com.haller.android.simpletodo.Views.TaskEditText;
+import com.haller.android.simpletodo.Utilities.TaskListManager;
 
 public class TaskFragment extends Fragment {
 

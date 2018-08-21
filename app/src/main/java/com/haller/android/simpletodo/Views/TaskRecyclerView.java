@@ -1,4 +1,4 @@
-package com.halller.android.simpletodo;
+package com.haller.android.simpletodo.Views;
 
 import android.content.Context;
 import android.support.annotation.Nullable;

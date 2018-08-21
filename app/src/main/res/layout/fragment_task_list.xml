@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.halller.android.simpletodo.TaskRecyclerView
+    <com.haller.android.simpletodo.Views.TaskRecyclerView
         android:id="@+id/list_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:padding="16dp"
-        tools:context=".ToDoListActivity"></com.halller.android.simpletodo.TaskRecyclerView>
+        tools:context=".ToDoListActivity"></com.haller.android.simpletodo.Views.TaskRecyclerView>
 
     <TextView
         android:id="@+id/empty_list"
@@ -31,7 +31,7 @@
         android:elevation="4dp"
         android:src="@drawable/ic_add" />
 
-    <com.halller.android.simpletodo.TaskEditText
+    <com.haller.android.simpletodo.Views.TaskEditText
         android:id="@+id/add_item_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

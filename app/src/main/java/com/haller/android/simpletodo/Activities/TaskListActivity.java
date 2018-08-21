@@ -1,6 +1,8 @@
-package com.halller.android.simpletodo;
+package com.haller.android.simpletodo.Activities;
 
 import android.support.v4.app.Fragment;
+
+import com.haller.android.simpletodo.Fragments.TaskListFragment;
 
 public class TaskListActivity extends SingleFragmentActivity {
 

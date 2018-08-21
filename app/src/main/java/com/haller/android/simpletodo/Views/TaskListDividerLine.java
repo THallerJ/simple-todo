@@ -1,10 +1,12 @@
-package com.halller.android.simpletodo;
+package com.haller.android.simpletodo.Views;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import com.haller.android.simpletodo.R;
 
 public class TaskListDividerLine extends RecyclerView.ItemDecoration {
     private Drawable mDivider;

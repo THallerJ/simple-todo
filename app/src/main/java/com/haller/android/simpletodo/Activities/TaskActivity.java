@@ -1,10 +1,12 @@
-package com.halller.android.simpletodo;
+package com.haller.android.simpletodo.Activities;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
-import java.util.UUID;
+import com.haller.android.simpletodo.Fragments.TaskFragment;
+import com.haller.android.simpletodo.Utilities.Task;
+import com.haller.android.simpletodo.Utilities.TaskListManager;
 
 public class TaskActivity extends SingleFragmentActivity {
 

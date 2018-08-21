@@ -1,9 +1,12 @@
-package com.halller.android.simpletodo;
+package com.haller.android.simpletodo.Utilities;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import com.haller.android.simpletodo.Database.DatabaseHelper;
+import com.haller.android.simpletodo.Database.TaskCursorWrapper;
 
 import java.util.ArrayList;
 import java.util.List;

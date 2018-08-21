@@ -1,10 +1,10 @@
-package com.halller.android.simpletodo;
+package com.haller.android.simpletodo.Database;
 
 import android.database.Cursor;
 import android.database.CursorWrapper;
-import android.provider.ContactsContract;
 
-import java.util.Date;
+import com.haller.android.simpletodo.Utilities.Task;
+
 import java.util.UUID;
 
 public class TaskCursorWrapper extends CursorWrapper {

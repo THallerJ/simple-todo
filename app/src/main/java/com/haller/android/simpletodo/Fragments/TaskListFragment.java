@@ -1,4 +1,4 @@
-package com.halller.android.simpletodo;
+package com.haller.android.simpletodo.Fragments;
 
 import android.content.Context;
 import android.graphics.Rect;
@@ -17,6 +17,14 @@ import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+
+import com.haller.android.simpletodo.R;
+import com.haller.android.simpletodo.Utilities.Task;
+import com.haller.android.simpletodo.Adapters.TaskAdapter;
+import com.haller.android.simpletodo.Views.TaskEditText;
+import com.haller.android.simpletodo.Views.TaskListDividerLine;
+import com.haller.android.simpletodo.Utilities.TaskListManager;
+import com.haller.android.simpletodo.Views.TaskRecyclerView;
 
 public class TaskListFragment extends Fragment {
 

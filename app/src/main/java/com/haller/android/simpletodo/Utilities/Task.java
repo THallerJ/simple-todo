@@ -1,4 +1,4 @@
-package com.halller.android.simpletodo;
+package com.haller.android.simpletodo.Utilities;
 
 import java.io.Serializable;
 import java.util.Date;

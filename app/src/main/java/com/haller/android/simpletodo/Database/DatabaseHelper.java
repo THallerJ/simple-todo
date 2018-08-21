@@ -1,4 +1,4 @@
-package com.halller.android.simpletodo;
+package com.haller.android.simpletodo.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
