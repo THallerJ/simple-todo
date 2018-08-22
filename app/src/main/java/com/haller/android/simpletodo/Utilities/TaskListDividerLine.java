@@ -1,4 +1,4 @@
-package com.haller.android.simpletodo.Views;
+package com.haller.android.simpletodo.Utilities;
 
 import android.content.Context;
 import android.graphics.Canvas;

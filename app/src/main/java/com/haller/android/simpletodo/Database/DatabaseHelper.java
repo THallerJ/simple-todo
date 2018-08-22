@@ -1,13 +1,9 @@
 package com.haller.android.simpletodo.Database;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-
-import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 

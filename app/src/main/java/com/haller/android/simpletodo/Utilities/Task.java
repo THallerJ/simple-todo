@@ -1,7 +1,6 @@
 package com.haller.android.simpletodo.Utilities;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.UUID;
 
 public class Task implements Serializable {
@@ -23,11 +22,11 @@ public class Task implements Serializable {
         mTimeAddedMillis = timeAddedMillis;
     }
 
-    public UUID getUUID(){
+    public UUID getUUID() {
         return mUUID;
     }
 
-    public void setUUID(UUID uuid){
+    public void setUUID(UUID uuid) {
         mUUID = uuid;
     }
 

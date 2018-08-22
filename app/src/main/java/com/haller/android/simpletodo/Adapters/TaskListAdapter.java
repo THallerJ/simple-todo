@@ -20,34 +20,34 @@ import com.haller.android.simpletodo.Utilities.TaskListManager;
 
 import java.util.List;
 
-public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
+public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskHolder> {
 
-    private static final String TAG = "TaskAdapter";
+    private static final String TAG = "TaskListAdapter";
     private Context mContext;
     private TaskListManager mTaskListManager;
     private TaskListFragment mTaskListFragment;
     private List<Task> mTaskList;
 
-    public TaskAdapter(Context context, TaskListFragment taskListFragment, TaskListManager taskListManager) {
+    public TaskListAdapter(Context context, TaskListFragment taskListFragment, TaskListManager taskListManager) {
         mContext = context;
         mTaskListFragment = taskListFragment;
         mTaskListManager = taskListManager;
         mTaskList = taskListManager.getList();
     }
 
-    public void setLists(List<Task> taskList){
+    public void setList(List<Task> taskList) {
         mTaskList = taskList;
     }
 
     @NonNull
     @Override
-    public TaskAdapter.TaskHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public TaskListAdapter.TaskHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.task_item, parent, false);
-        return new TaskAdapter.TaskHolder(view);
+        return new TaskListAdapter.TaskHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TaskAdapter.TaskHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TaskListAdapter.TaskHolder holder, int position) {
         Task task = mTaskList.get(position);
         holder.bind(task);
     }
@@ -104,7 +104,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             snackbar.setAction(mContext.getString(R.string.undo_button), new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(mDeletedTask != null) {
+                    if (mDeletedTask != null) {
                         addItem(mDeletedTask, mAdapterPosition);
                         mDeletedTask = null;
                         snackbar.dismiss();

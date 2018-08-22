@@ -13,7 +13,7 @@ public class TaskCursorWrapper extends CursorWrapper {
         super(cursor);
     }
 
-    public Task getTask(){
+    public Task getTask() {
         String uuidString = getString(getColumnIndex(DatabaseHelper.COL_UUID));
         String taskDetails = getString(getColumnIndex(DatabaseHelper.COL_DETAILS));
         long timeAddedMillis = getLong(getColumnIndex(DatabaseHelper.COL_MILLIS_ADDED));

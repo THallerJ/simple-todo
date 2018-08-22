@@ -17,6 +17,9 @@ public class TaskEditText extends AppCompatEditText {
     // It is hidden by default
     private boolean mIsPersistent = true;
 
+    // Keeps track of whether or not the back button was pressed to exit the TaskEditText
+    private boolean mBackButtonFlag = false;
+
     // Message displayed in TaskEditText when user selects TaskEditText or when the user hits the
     // back button instead of submit button
     private String mDefaultText = "";
@@ -37,6 +40,7 @@ public class TaskEditText extends AppCompatEditText {
     @Override
     public boolean onKeyPreIme(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
+            mBackButtonFlag = true;
             resetState();
         }
 
@@ -44,15 +48,17 @@ public class TaskEditText extends AppCompatEditText {
     }
 
     public void resetState() {
-        if(mIsPersistent) {
+        if (mIsPersistent && hasText() && !mBackButtonFlag) {
             setDefaultText(getText().toString());
-        } else {
+        }
+
+        if (!mIsPersistent) {
             setVisibility(GONE);
         }
 
         setText(mDefaultText);
-
         setSelection(getText().toString().length());
+        mBackButtonFlag = false;
 
         if (mFab != null) {
             mFab.show();
@@ -71,15 +77,20 @@ public class TaskEditText extends AppCompatEditText {
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
+    // returns false if the String returned by getText() contains only 'space' characters
+    public boolean hasText() {
+        return getText().toString().trim().length() != 0;
+    }
+
     public void setFab(FloatingActionButton fab) {
         this.mFab = fab;
     }
 
-    public void setPersistence(boolean isPersistent){
+    public void setPersistence(boolean isPersistent) {
         mIsPersistent = isPersistent;
     }
 
-    public void setDefaultText(String defaultText){
+    public void setDefaultText(String defaultText) {
         mDefaultText = defaultText;
     }
 }

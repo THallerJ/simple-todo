@@ -18,20 +18,20 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
+import com.haller.android.simpletodo.Adapters.TaskListAdapter;
 import com.haller.android.simpletodo.R;
 import com.haller.android.simpletodo.Utilities.Task;
-import com.haller.android.simpletodo.Adapters.TaskAdapter;
-import com.haller.android.simpletodo.Views.TaskEditText;
-import com.haller.android.simpletodo.Views.TaskListDividerLine;
+import com.haller.android.simpletodo.Utilities.TaskListDividerLine;
 import com.haller.android.simpletodo.Utilities.TaskListManager;
-import com.haller.android.simpletodo.Views.TaskRecyclerView;
+import com.haller.android.simpletodo.Views.EmptyRecyclerView;
+import com.haller.android.simpletodo.Views.TaskEditText;
 
 public class TaskListFragment extends Fragment {
 
     private static final String TAG = "TaskListFragment";
     private TaskListManager mTaskListManager;
-    private TaskRecyclerView mRecyclerView;
-    private TaskAdapter mAdapter;
+    private EmptyRecyclerView mRecyclerView;
+    private TaskListAdapter mAdapter;
     private TaskEditText mEditText;
     private FloatingActionButton mFab;
     private TextView mEmptyTextView;
@@ -44,7 +44,7 @@ public class TaskListFragment extends Fragment {
 
         mEmptyTextView = (TextView) view.findViewById(R.id.empty_list);
 
-        mRecyclerView = (TaskRecyclerView) view.findViewById(R.id.list_recycler_view);
+        mRecyclerView = (EmptyRecyclerView) view.findViewById(R.id.list_recycler_view);
         updateRecyclerView();
 
         mFab = (FloatingActionButton) view.findViewById(R.id.add_task_fab);
@@ -70,8 +70,8 @@ public class TaskListFragment extends Fragment {
             public void onGlobalLayout() {
                 Rect r = new Rect();
                 view.getWindowVisibleDisplayFrame(r);
-                int screenHeight = view.getRootView().getHeight();
 
+                int screenHeight = view.getRootView().getHeight();
                 int keypadHeight = screenHeight - r.bottom;
 
                 if (keypadHeight > screenHeight * 0.15 || mTaskListManager.getList().size() != 0) {
@@ -95,12 +95,12 @@ public class TaskListFragment extends Fragment {
         mTaskListManager = new TaskListManager(getActivity());
 
         if (mAdapter == null) {
-            mAdapter = new TaskAdapter(getActivity(), this, mTaskListManager);
+            mAdapter = new TaskListAdapter(getActivity(), this, mTaskListManager);
             mRecyclerView.addItemDecoration(new TaskListDividerLine(getActivity()));
             mRecyclerView.setAdapter(mAdapter);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         } else {
-            mAdapter.setLists(mTaskListManager.getList());
+            mAdapter.setList(mTaskListManager.getList());
             mAdapter.notifyDataSetChanged();
         }
     }
@@ -110,16 +110,19 @@ public class TaskListFragment extends Fragment {
         mEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                if ((actionId == EditorInfo.IME_ACTION_DONE) && (mEditText.getText().toString()
-                        .trim().length() != 0)) {
-                    Task item = new Task(mEditText.getText().toString());
-                    mTaskListManager.addTask(item);
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    if (mEditText.hasText()) {
+                        Task item = new Task(mEditText.getText().toString());
+                        mTaskListManager.addTask(item);
+                        mFab.show();
+                        updateRecyclerView();
+                        mAdapter.notifyItemInserted(mTaskListManager.getList().size());
+                    }
+
                     mEditText.hideKeyboard(getActivity());
-                    mFab.show();
                     mEditText.resetState();
-                    updateRecyclerView();
-                    mAdapter.notifyItemInserted(mTaskListManager.getList().size());
                     return true;
+
                 } else {
                     return false;
                 }
@@ -127,7 +130,7 @@ public class TaskListFragment extends Fragment {
         });
     }
 
-    // Allows Snackbar from TaskAdapter to be dismissed when keyboard is open
+    // Allows Snackbar from TaskListAdapter to be dismissed when keyboard is open
     public void setUndoSnackbar(Snackbar snackbar) {
         mUndoSnackbar = snackbar;
     }

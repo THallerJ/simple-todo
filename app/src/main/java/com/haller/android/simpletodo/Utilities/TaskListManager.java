@@ -34,16 +34,16 @@ public class TaskListManager {
     public void removeTask(Task task) {
         mDatabase = mDbHelper.getWritableDatabase();
         mDatabase.execSQL("delete from " + DatabaseHelper.TABLE_NAME + " where " +
-                DatabaseHelper.COL_DETAILS + "=\"" + task.getTaskDetails() +"\";");
+                DatabaseHelper.COL_DETAILS + "=\"" + task.getTaskDetails() + "\";");
         mDatabase.close();
     }
 
-    public void updateTaskDetails(Task task){
+    public void updateTaskDetails(Task task) {
         mDatabase = mDbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(DatabaseHelper.COL_DETAILS, task.getTaskDetails());
         mDatabase.update(DatabaseHelper.TABLE_NAME, values,
-                DatabaseHelper.COL_UUID + " = ?", new String[] {task.getUUID().toString()});
+                DatabaseHelper.COL_UUID + " = ?", new String[]{task.getUUID().toString()});
     }
 
     // Query the database and use the data to populate a Task list
@@ -51,9 +51,9 @@ public class TaskListManager {
         List<Task> taskList = new ArrayList<>();
         TaskCursorWrapper cursor = queryTaskList(null, null,
                 DatabaseHelper.COL_MILLIS_ADDED);
-        try{
+        try {
             cursor.moveToFirst();
-            while(!cursor.isAfterLast()){
+            while (!cursor.isAfterLast()) {
                 taskList.add(cursor.getTask());
                 cursor.moveToNext();
             }
@@ -64,7 +64,7 @@ public class TaskListManager {
         return taskList;
     }
 
-    private TaskCursorWrapper queryTaskList(String where, String[] whereArgs, String orderBy){
+    private TaskCursorWrapper queryTaskList(String where, String[] whereArgs, String orderBy) {
         mDatabase = mDbHelper.getWritableDatabase();
         Cursor cursor = mDatabase.query(
                 DatabaseHelper.TABLE_NAME,
