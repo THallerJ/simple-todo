@@ -1,5 +1,7 @@
 package com.haller.android.simpletodo.Fragments;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,10 +19,14 @@ import com.haller.android.simpletodo.Utilities.Task;
 import com.haller.android.simpletodo.Utilities.TaskListManager;
 import com.haller.android.simpletodo.Views.TaskEditText;
 
+import java.util.Date;
+
 public class TaskFragment extends Fragment {
 
     private static final String TAG = "TaskFragment";
     private static final String ARG_TASK = "task";
+    private static final String DIALOG_DATE = "DialogDate";
+    private static final int REQUEST_DATE = 0;
 
     private Task mTask;
     private TextView mDateTextView;
@@ -77,15 +83,27 @@ public class TaskFragment extends Fragment {
         mLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if (getFragmentManager() != null) {
+                    DatePickerFragment datePicker = new DatePickerFragment();
+                    datePicker.setTargetFragment(TaskFragment.this, REQUEST_DATE);
+                    datePicker.show(getFragmentManager(), DIALOG_DATE);
+                }
             }
         });
 
         return view;
     }
 
-    public void setTaskListManager(TaskListManager taskListMangager) {
-        mTaskListManager = taskListMangager;
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
+            mDateTextView.setText(date.toString());
+        }
+    }
+
+    public void setTaskListManager(TaskListManager taskListManager) {
+        mTaskListManager = taskListManager;
     }
 }
 

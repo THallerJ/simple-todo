@@ -10,16 +10,18 @@
         android:supportsRtl="true"
 
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.TaskListActivity"
-            android:windowSoftInputMode="adjustResize"
-             >
+        <activity
+            android:name=".Activities.TaskListActivity"
+            android:windowSoftInputMode="adjustResize">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.TaskActivity"></activity>
+        <activity
+            android:name=".Activities.TaskActivity"
+            android:parentActivityName=".Activities.TaskListActivity"></activity>
     </application>
 
 </manifest>
