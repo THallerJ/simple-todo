@@ -46,6 +46,14 @@ public class TaskListManager {
                 DatabaseHelper.COL_UUID + " = ?", new String[]{task.getUUID().toString()});
     }
 
+    public void updateDueDate(Task task) {
+        mDatabase = mDbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DatabaseHelper.COL_DUE_DATE, task.getDueDate());
+        mDatabase.update(DatabaseHelper.TABLE_NAME, values,
+                DatabaseHelper.COL_UUID + " = ?", new String[]{task.getUUID().toString()});
+    }
+
     // Query the database and use the data to populate a Task list
     public List<Task> getList() {
         List<Task> taskList = new ArrayList<>();
