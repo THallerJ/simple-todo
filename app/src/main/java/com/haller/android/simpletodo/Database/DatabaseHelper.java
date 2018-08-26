@@ -14,7 +14,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_NAME = "tasklist";
     public static final String COL_UUID = "uuid";
     public static final String COL_DETAILS = "details";
-    public static final String COL_MILLIS_ADDED = "date_added";
+    public static final String COL_MILLIS_ADDED = "millis_added";
+    public static final String COL_DUE_DATE = "date_due";
 
     private SQLiteDatabase db;
 
@@ -29,7 +30,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "_id integer primary key autoincrement, " +
                 COL_UUID + ", " +
                 COL_DETAILS + " , " +
-                COL_MILLIS_ADDED +
+                COL_MILLIS_ADDED + ", " +
+                COL_DUE_DATE +
                 ")"
         );
     }

@@ -9,6 +9,7 @@ public class Task implements Serializable {
     private UUID mUUID;
     private String mTaskDetails;
     private long mTimeAddedMillis;
+    private String mDueDateString;
 
     public Task(String taskDetails) {
         mUUID = UUID.randomUUID();
@@ -16,10 +17,11 @@ public class Task implements Serializable {
         mTimeAddedMillis = System.currentTimeMillis();
     }
 
-    public Task(String taskDetails, UUID uuid, long timeAddedMillis) {
+    public Task(String taskDetails, UUID uuid, long timeAddedMillis, String dueDateString) {
         mTaskDetails = taskDetails;
         mUUID = uuid;
         mTimeAddedMillis = timeAddedMillis;
+        mDueDateString = dueDateString;
     }
 
     public UUID getUUID() {
@@ -44,5 +46,13 @@ public class Task implements Serializable {
 
     public void setTimeAddedMillis(long timeAddedMillis) {
         mTimeAddedMillis = timeAddedMillis;
+    }
+
+    public String getDueDate() {
+        return mDueDateString;
+    }
+
+    public void setDueDate(String dueDate) {
+        mDueDateString = dueDate;
     }
 }

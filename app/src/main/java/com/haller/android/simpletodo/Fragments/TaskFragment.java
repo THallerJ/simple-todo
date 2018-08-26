@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +20,9 @@ import com.haller.android.simpletodo.Utilities.Task;
 import com.haller.android.simpletodo.Utilities.TaskListManager;
 import com.haller.android.simpletodo.Views.TaskEditText;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class TaskFragment extends Fragment {
 
@@ -54,7 +57,15 @@ public class TaskFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.task_fragment, container, false);
 
+        Log.d(TAG, "onCreateView: task due date = " + mTask.getDueDate());
+
         mDateTextView = (TextView) view.findViewById(R.id.due_date_text_view);
+
+        if (mTask.getDueDate() == null) {
+            mDateTextView.setText(R.string.no_date);
+        } else {
+            mDateTextView.setText(mTask.getDueDate());
+        }
 
         mTaskEditText = (TaskEditText) view.findViewById(R.id.task_edit_text);
         mTaskEditText.setText(mTask.getTaskDetails());
@@ -98,8 +109,17 @@ public class TaskFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
             Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
-            mDateTextView.setText(date.toString());
+
+            String dateString = getDateString(date, "MMM d, yyyy");
+            mTask.setDueDate(dateString);
+            mDateTextView.setText(dateString);
+            mTaskListManager.updateDueDate(mTask);
         }
+    }
+
+    public String getDateString(Date date, String format) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(format, Locale.getDefault());
+        return dateFormat.format(date);
     }
 
     public void setTaskListManager(TaskListManager taskListManager) {
