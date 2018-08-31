@@ -1,6 +1,10 @@
 package com.haller.android.simpletodo.Utilities;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.UUID;
 
 public class Task implements Serializable {
@@ -54,5 +58,23 @@ public class Task implements Serializable {
 
     public void setDueDate(String dueDate) {
         mDueDateString = dueDate;
+    }
+
+    public boolean hasDueDate() {
+        return mDueDateString != null;
+    }
+
+    // convert the date string into another format
+    public String convertDateFormat(String format) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(format, Locale.getDefault());
+
+        Date convertedDate = new Date();
+        try {
+            convertedDate = dateFormat.parse(mDueDateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return dateFormat.format(convertedDate);
     }
 }

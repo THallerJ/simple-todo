@@ -42,14 +42,23 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskHo
     @NonNull
     @Override
     public TaskListAdapter.TaskHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.task_item, parent, false);
-        return new TaskListAdapter.TaskHolder(view);
+        LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+        return new TaskListAdapter.TaskHolder(layoutInflater, parent, viewType);
     }
 
     @Override
     public void onBindViewHolder(@NonNull TaskListAdapter.TaskHolder holder, int position) {
         Task task = mTaskList.get(position);
         holder.bind(task);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (mTaskList.get(position).hasDueDate()) {
+            return R.layout.task_item_date;
+        } else {
+            return R.layout.task_item;
+        }
     }
 
     @Override
@@ -61,13 +70,15 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskHo
         private Task mTask;
         private CheckBox mItemCheckBox;
         private TextView mItemTextView;
+        private TextView mDueDateTextView;
         private int mAdapterPosition;
 
         private Task mDeletedTask;
         private boolean onBind;
 
-        public TaskHolder(View itemView) {
-            super(itemView);
+        private TaskHolder(LayoutInflater inflater, ViewGroup parent, int viewType) {
+            super(inflater.inflate(viewType, parent, false));
+            mDueDateTextView = (TextView) itemView.findViewById(R.id.small_due_date_text_view);
             mItemCheckBox = (CheckBox) itemView.findViewById(R.id.task_item_check_box);
             mItemTextView = (TextView) itemView.findViewById(R.id.task_item_text_view);
             mItemCheckBox.setOnCheckedChangeListener(this);
@@ -80,15 +91,20 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskHo
             });
         }
 
-        public void bind(Task task) {
+        private void bind(Task task) {
             mTask = task;
             mItemTextView.setText(mTask.getTaskDetails());
             onBind = true;
             mItemCheckBox.setChecked(false);
             onBind = false;
+
+            if (mTask.hasDueDate()) {
+                String dateString = mTask.convertDateFormat("MMM d");
+                mDueDateTextView.setText(dateString);
+            }
         }
 
-        public void deleteTask(int position) {
+        private void deleteTask(int position) {
             mDeletedTask = mTaskList.get(position);
             mTaskList.remove(position);
             mTaskListManager.removeTask(mTask);
@@ -97,7 +113,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskHo
             undoDeletion();
         }
 
-        public void undoDeletion() {
+        private void undoDeletion() {
             final Snackbar snackbar = Snackbar.make(mItemCheckBox, mContext.getString(R.string.task_completed),
                     Snackbar.LENGTH_LONG);
             mTaskListFragment.setUndoSnackbar(snackbar);
@@ -115,7 +131,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskHo
             snackbar.show();
         }
 
-        public void addItem(Task task, int position) {
+        private void addItem(Task task, int position) {
             mTaskList.add(position, task);
             mTaskListManager.addTask(task);
             notifyItemInserted(mAdapterPosition);
