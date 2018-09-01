@@ -3,6 +3,7 @@ package com.haller.android.simpletodo.Fragments;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -26,7 +27,18 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);
 
-        return new DatePickerDialog(getActivity(), R.style.DarkDatePicker, this, year, month, day);
+        final DatePickerDialog datePicker = new DatePickerDialog(getActivity(), R.style.DarkDatePicker,
+                this, year, month, day);
+
+        datePicker.setButton(DialogInterface.BUTTON_NEUTRAL, getString(R.string.remove_date), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                onDateSet(datePicker.getDatePicker(), 0, 0, 0);
+                datePicker.dismiss();
+            }
+        });
+
+        return datePicker;
     }
 
     @Override

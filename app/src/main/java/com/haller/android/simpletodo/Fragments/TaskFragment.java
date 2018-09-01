@@ -20,6 +20,7 @@ import com.haller.android.simpletodo.Utilities.TaskListManager;
 import com.haller.android.simpletodo.Views.TaskEditText;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -106,10 +107,20 @@ public class TaskFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
             Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
-
             String dateString = getDateString(date, "MMM d, yyyy");
-            mTask.setDueDate(dateString);
-            mDateTextView.setText(dateString);
+
+            Calendar cal = Calendar.getInstance();
+            cal.set(0, 0, 0);
+            String nullDateString = getDateString(cal.getTime(), "MMM d, yyyy");
+
+            if (nullDateString.equals(dateString)) {
+                mTask.setDueDate(null);
+                mDateTextView.setText(R.string.no_date);
+            } else {
+                mTask.setDueDate(dateString);
+                mDateTextView.setText(dateString);
+            }
+
             mTaskListManager.updateDueDate(mTask);
         }
     }

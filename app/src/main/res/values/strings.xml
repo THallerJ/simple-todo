@@ -6,4 +6,5 @@
     <string name="empty_list">You have nothing to do</string>
     <string name="date_header">Due Date</string>
     <string name="no_date">None</string>
+    <string name="remove_date">CLEAR DATE</string>
 </resources>
