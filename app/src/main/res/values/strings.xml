@@ -7,4 +7,5 @@
     <string name="date_header">Due Date</string>
     <string name="no_date">None</string>
     <string name="remove_date">CLEAR DATE</string>
+    <string name="task_note">Type a note</string>
 </resources>
