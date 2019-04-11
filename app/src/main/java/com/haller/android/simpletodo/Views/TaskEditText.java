@@ -41,6 +41,7 @@ public class TaskEditText extends AppCompatEditText {
     public boolean onKeyPreIme(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             mBackButtonFlag = true;
+            clearFocus();
             resetState();
         }
 

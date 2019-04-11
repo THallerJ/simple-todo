@@ -11,9 +11,11 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.haller.android.simpletodo.R;
 import com.haller.android.simpletodo.Utilities.Task;
@@ -38,6 +40,7 @@ public class TaskFragment extends Fragment {
     private TaskEditText mNoteEditText;
     private TaskListManager mTaskListManager;
     private LinearLayout mLinearLayout;
+    private View mView;
 
     public static TaskFragment newInstance(Task task) {
         Bundle args = new Bundle();
@@ -103,7 +106,18 @@ public class TaskFragment extends Fragment {
         });
 
         mNoteEditText = (TaskEditText) view.findViewById(R.id.task_note_text);
-        
+        mView = (View) view.findViewById(R.id.the_view);
+        mNoteEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    Toast.makeText(getActivity(), "Got the focus", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getActivity(), "Lost the focus", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
         return view;
     }
 

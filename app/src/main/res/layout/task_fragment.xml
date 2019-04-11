@@ -1,76 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/task_root_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="24dp">
-
-    <com.haller.android.simpletodo.Views.TaskEditText
-        android:id="@+id/task_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/windowBackground"
-        android:imeOptions="actionDone"
-        android:inputType="textCapSentences"
-        android:paddingBottom="16dp"
-        android:textColor="@color/textColor"
-        android:textSize="24sp"
-        tools:text="My Task" />
+    android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/linear_layout_date"
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="16dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="24dp">
 
-        <ImageView
-            android:layout_width="wrap_content"
+        <com.haller.android.simpletodo.Views.TaskEditText
+            android:id="@+id/task_edit_text"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:paddingEnd="32dp"
-            android:src="@drawable/ic_event" />
+            android:background="@color/windowBackground"
+            android:imeOptions="actionDone"
+            android:inputType="textCapSentences"
+            android:paddingBottom="16dp"
+            android:textColor="@color/textColor"
+            android:textSize="24sp"
+            tools:text="My Task" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/linear_layout_date"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:paddingTop="16dp">
 
-            <TextView
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/date_header"
-                android:textSize="18sp" />
+                android:layout_marginTop="4dp"
+                android:paddingEnd="32dp"
+                android:src="@drawable/ic_event" />
 
-            <TextView
-                android:id="@+id/due_date_text_view"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="4dp"
-                android:text="@string/no_date"
-                android:textColor="@color/colorAccent"
-                android:textSize="14sp" />
+                android:orientation="vertical">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/date_header"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/due_date_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="4dp"
+                    android:text="@string/no_date"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="16dp"
+            android:background="@color/colorPrimary" />
+
+        <com.haller.android.simpletodo.Views.TaskEditText
+            android:id="@+id/task_note_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/windowBackground"
+            android:gravity="top|start"
+            android:hint="@string/task_note"
+            android:inputType="textMultiLine|textCapSentences"
+            android:textColor="@color/textColor"
+            android:textSize="18sp"
+            tools:text="Type a note" />
+
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_margin="16dp"
-        android:background="@color/colorPrimary" />
-
-    <com.haller.android.simpletodo.Views.TaskEditText
-        android:id="@+id/task_note_text"
-        android:layout_width="match_parent"
-        android:inputType="textMultiLine|textCapSentences"
-        android:layout_height="wrap_content"
-        android:background="@color/windowBackground"
-        android:gravity="top|start"
-        android:hint="@string/task_note"
-        android:textColor="@color/textColor"
-        android:textSize="18sp"
-        tools:text="Type a note" />
-
-</LinearLayout>
+    
+</android.support.constraint.ConstraintLayout>
