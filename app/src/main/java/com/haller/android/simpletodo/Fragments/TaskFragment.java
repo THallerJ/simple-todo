@@ -106,7 +106,6 @@ public class TaskFragment extends Fragment {
         });
 
         mNoteEditText = (TaskEditText) view.findViewById(R.id.task_note_text);
-        mView = (View) view.findViewById(R.id.the_view);
         mNoteEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {

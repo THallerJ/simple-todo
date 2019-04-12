@@ -71,7 +71,7 @@
         <com.haller.android.simpletodo.Views.TaskEditText
             android:id="@+id/task_note_text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@color/windowBackground"
             android:gravity="top|start"
             android:hint="@string/task_note"
@@ -81,5 +81,5 @@
             tools:text="Type a note" />
 
     </LinearLayout>
-    
+
 </android.support.constraint.ConstraintLayout>
