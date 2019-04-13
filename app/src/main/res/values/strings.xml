@@ -8,4 +8,6 @@
     <string name="no_date">None</string>
     <string name="remove_date">CLEAR DATE</string>
     <string name="task_note">Type a note</string>
+    <string name="done_note">DONE</string>
+    <string name="discard_note">DISCARD</string>
 </resources>

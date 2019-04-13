@@ -6,12 +6,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -39,8 +37,10 @@ public class TaskFragment extends Fragment {
     private TaskEditText mTaskEditText;
     private TaskEditText mNoteEditText;
     private TaskListManager mTaskListManager;
-    private LinearLayout mLinearLayout;
-    private View mView;
+    private LinearLayout mDateButton;
+    private LinearLayout mButtonPanel;
+    private LinearLayout mDiscardButton;
+    private LinearLayout mDoneButton;
 
     public static TaskFragment newInstance(Task task) {
         Bundle args = new Bundle();
@@ -93,8 +93,8 @@ public class TaskFragment extends Fragment {
             }
         });
 
-        mLinearLayout = (LinearLayout) view.findViewById(R.id.linear_layout_date);
-        mLinearLayout.setOnClickListener(new View.OnClickListener() {
+        mDateButton = (LinearLayout) view.findViewById(R.id.linear_layout_date);
+        mDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (getFragmentManager() != null) {
@@ -105,14 +105,38 @@ public class TaskFragment extends Fragment {
             }
         });
 
+        mButtonPanel = (LinearLayout) view.findViewById(R.id.button_panel);
+
+        mDiscardButton = (LinearLayout) view.findViewById(R.id.discard_button);
+        mDiscardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast toast = Toast.makeText(getActivity(), "Discard", Toast.LENGTH_SHORT);
+                toast.show();
+                TaskEditText.hideKeyboard(getActivity());
+                mNoteEditText.clearFocus();
+            }
+        });
+
+        mDoneButton = (LinearLayout) view.findViewById(R.id.done_button);
+        mDoneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast toast = Toast.makeText(getActivity(), "Done", Toast.LENGTH_SHORT);
+                toast.show();
+                TaskEditText.hideKeyboard(getActivity());
+                mNoteEditText.clearFocus();
+            }
+        });
+
         mNoteEditText = (TaskEditText) view.findViewById(R.id.task_note_text);
         mNoteEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 if (hasFocus) {
-                    Toast.makeText(getActivity(), "Got the focus", Toast.LENGTH_LONG).show();
+                    mButtonPanel.setVisibility(View.VISIBLE);
                 } else {
-                    Toast.makeText(getActivity(), "Lost the focus", Toast.LENGTH_LONG).show();
+                    mButtonPanel.setVisibility(View.GONE);
                 }
             }
         });
