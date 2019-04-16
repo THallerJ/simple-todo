@@ -20,6 +20,8 @@ public class TaskEditText extends AppCompatEditText {
     // Keeps track of whether or not the back button was pressed to exit the TaskEditText
     private boolean mBackButtonFlag = false;
 
+    private boolean mClearOnBack = true;
+
     // Message displayed in TaskEditText when user selects TaskEditText or when the user hits the
     // back button instead of submit button
     private String mDefaultText = "";
@@ -57,7 +59,9 @@ public class TaskEditText extends AppCompatEditText {
             setVisibility(GONE);
         }
 
-        setText(mDefaultText);
+        if (mClearOnBack) {
+            setText(mDefaultText);
+        }
         setSelection(getText().toString().length());
         mBackButtonFlag = false;
 
@@ -76,6 +80,10 @@ public class TaskEditText extends AppCompatEditText {
         }
 
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    public void setClearOnBack(boolean clearOnBack) {
+        mClearOnBack = clearOnBack;
     }
 
     // returns false if the String returned by getText() contains only 'space' characters

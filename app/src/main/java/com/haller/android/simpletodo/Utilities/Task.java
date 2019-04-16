@@ -14,6 +14,7 @@ public class Task implements Serializable {
     private String mTaskDetails;
     private long mTimeAddedMillis;
     private String mDueDateString;
+    private String mNote;
 
     public Task(String taskDetails) {
         mUUID = UUID.randomUUID();
@@ -21,10 +22,12 @@ public class Task implements Serializable {
         mTimeAddedMillis = System.currentTimeMillis();
     }
 
-    public Task(String taskDetails, UUID uuid, long timeAddedMillis, String dueDateString) {
+    public Task(String taskDetails, UUID uuid, long timeAddedMillis, String note,
+                String dueDateString) {
         mTaskDetails = taskDetails;
         mUUID = uuid;
         mTimeAddedMillis = timeAddedMillis;
+        mNote = note;
         mDueDateString = dueDateString;
     }
 
@@ -62,6 +65,18 @@ public class Task implements Serializable {
 
     public boolean hasDueDate() {
         return mDueDateString != null;
+    }
+
+    public String getNote() {
+        return mNote;
+    }
+
+    public void setNote(String note) {
+        mNote = note;
+    }
+
+    public boolean hasNote() {
+        return mNote != null && !mNote.isEmpty();
     }
 
     // convert the date string into another format

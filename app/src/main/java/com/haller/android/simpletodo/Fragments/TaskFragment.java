@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.haller.android.simpletodo.R;
 import com.haller.android.simpletodo.Utilities.Task;
@@ -70,6 +70,11 @@ public class TaskFragment extends Fragment {
             mDateTextView.setText(mTask.getDueDate());
         }
 
+        mNoteEditText = (TaskEditText) view.findViewById(R.id.task_note_text);
+        mNoteEditText.setClearOnBack(false);
+
+        mNoteEditText.setText(mTask.getNote());
+
         mTaskEditText = (TaskEditText) view.findViewById(R.id.task_edit_text);
         mTaskEditText.setText(mTask.getTaskDetails());
         mTaskEditText.setSelection(mTaskEditText.getText().length());
@@ -85,7 +90,7 @@ public class TaskFragment extends Fragment {
                     }
 
                     mTaskEditText.resetState();
-                    mTaskEditText.hideKeyboard(getActivity());
+                    TaskEditText.hideKeyboard(getActivity());
                     return true;
                 } else {
                     return false;
@@ -111,10 +116,14 @@ public class TaskFragment extends Fragment {
         mDiscardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast toast = Toast.makeText(getActivity(), "Discard", Toast.LENGTH_SHORT);
-                toast.show();
-                TaskEditText.hideKeyboard(getActivity());
-                mNoteEditText.clearFocus();
+                if (getFragmentManager() != null) {
+                    mTask.setNote(null);
+                    mTaskListManager.updateNote(mTask);
+
+                    mNoteEditText.setText("");
+                    mNoteEditText.clearFocus();
+                    TaskEditText.hideKeyboard(getActivity());
+                }
             }
         });
 
@@ -122,14 +131,20 @@ public class TaskFragment extends Fragment {
         mDoneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast toast = Toast.makeText(getActivity(), "Done", Toast.LENGTH_SHORT);
-                toast.show();
-                TaskEditText.hideKeyboard(getActivity());
-                mNoteEditText.clearFocus();
+                if (getFragmentManager() != null) {
+                    if (mNoteEditText.hasText()) {
+                        mTask.setNote(mNoteEditText.getText().toString());
+                        mTaskListManager.updateNote(mTask);
+                    } else {
+                        mNoteEditText.setText("");
+                    }
+
+                    mNoteEditText.clearFocus();
+                    TaskEditText.hideKeyboard(getActivity());
+                }
             }
         });
 
-        mNoteEditText = (TaskEditText) view.findViewById(R.id.task_note_text);
         mNoteEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {

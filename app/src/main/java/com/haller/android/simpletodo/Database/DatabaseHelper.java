@@ -15,6 +15,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_UUID = "uuid";
     public static final String COL_DETAILS = "details";
     public static final String COL_MILLIS_ADDED = "millis_added";
+    public static final String COL_NOTE = "note";
     public static final String COL_DUE_DATE = "date_due";
 
     private SQLiteDatabase db;
@@ -31,6 +32,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COL_UUID + ", " +
                 COL_DETAILS + " , " +
                 COL_MILLIS_ADDED + ", " +
+                COL_NOTE + ", " +
                 COL_DUE_DATE +
                 ")"
         );

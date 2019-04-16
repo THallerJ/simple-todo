@@ -54,6 +54,14 @@ public class TaskListManager {
                 DatabaseHelper.COL_UUID + " = ?", new String[]{task.getUUID().toString()});
     }
 
+    public void updateNote(Task task) {
+        mDatabase = mDbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DatabaseHelper.COL_NOTE, task.getNote());
+        mDatabase.update(DatabaseHelper.TABLE_NAME, values,
+                DatabaseHelper.COL_UUID + " = ?", new String[]{task.getUUID().toString()});
+    }
+
     // Query the database and use the data to populate a Task list
     public List<Task> getList() {
         List<Task> taskList = new ArrayList<>();
@@ -65,6 +73,7 @@ public class TaskListManager {
                 taskList.add(cursor.getTask());
                 cursor.moveToNext();
             }
+
         } finally {
             cursor.close();
         }
