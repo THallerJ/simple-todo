@@ -83,7 +83,12 @@ public class TaskListFragment extends Fragment {
                     }
                 } else {
                     // keyboard is closed
-                    mEmptyTextView.setVisibility(View.VISIBLE);
+                    mEmptyTextView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mEmptyTextView.setVisibility(View.VISIBLE);
+                        }
+                    }, 100);
                 }
             }
         });
